@@ -10,6 +10,9 @@
     "format:fix": "npx prettier --write ./src",
     "preview": "vite preview"
   },
+  "lint-staged": {
+    "*.{ts,tsx,js,css,scss,less,json}": "npm run lint"
+  },
   "devDependencies": {
     "@babel/plugin-transform-private-methods": "^7.24.7",
     "@types/react": "^18.3.3",
@@ -24,6 +27,8 @@
     "eslint-plugin-react-compiler": "^0.0.0-experimental-0998c1e-20240625",
     "eslint-plugin-react-hooks": "^4.6.2",
     "eslint-plugin-react-refresh": "^0.4.7",
+    "husky": "^9.0.11",
+    "lint-staged": "^15.2.7",
     "prettier": "^3.3.2",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
