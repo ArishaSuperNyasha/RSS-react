@@ -8,7 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint ./src --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "format:fix": "npx prettier --write ./src",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prepare": "cd .. && husky husky/.husky"
   },
   "lint-staged": {
     "*.{ts,tsx,js,css,scss,less,json}": "npm run lint"
