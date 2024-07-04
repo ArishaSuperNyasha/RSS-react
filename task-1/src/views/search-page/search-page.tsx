@@ -12,12 +12,17 @@ import {
 
 export class SearchPage extends Component {
   state: {
-    terms?: string[];
+    terms: string[];
+    isFocus: boolean;
   } = {
     terms: this.getTerms(),
+    isFocus: false,
   };
 
   private inputRef: React.RefObject<SearchInput> =
+    createRef();
+
+  private termsRef: React.RefObject<TermsList> =
     createRef();
 
   private inputValue = '';
@@ -42,6 +47,12 @@ export class SearchPage extends Component {
     });
   }
 
+  private onFocus: React.FormEventHandler<HTMLInputElement> =
+    (event) => {
+      const isFocus = event.type === 'focus';
+      this.setState({ isFocus });
+    };
+
   private handleButtonClick: React.MouseEventHandler<HTMLButtonElement> =
     () => {
       const newValue = this.inputValue;
@@ -63,10 +74,16 @@ export class SearchPage extends Component {
       <>
         <SearchInput
           onInput={this.handleInput}
+          onFocus={this.onFocus}
+          onBlur={this.onFocus}
           ref={this.inputRef}
         />
         <SearchButton onClick={this.handleButtonClick} />
-        <TermsList terms={this.state.terms} />
+        <TermsList
+          ref={this.termsRef}
+          className={this.state.isFocus ? '' : 'hidden'}
+          terms={this.state.terms}
+        />
       </>
     );
   }
