@@ -4,7 +4,7 @@ interface SearchInputProps {
   onInput?: React.FormEventHandler<HTMLInputElement>;
 }
 
-class SearchInput extends Component<SearchInputProps> {
+export class SearchInput extends Component<SearchInputProps> {
   private inputRef: React.RefObject<HTMLInputElement> =
     createRef();
 
@@ -32,5 +32,3 @@ class SearchInput extends Component<SearchInputProps> {
     );
   }
 }
-
-export { SearchInput };

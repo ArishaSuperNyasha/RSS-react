@@ -4,7 +4,7 @@ interface SearchButtonProps {
   onClick?: React.MouseEventHandler<HTMLButtonElement>;
 }
 
-class SearchButton extends Component<SearchButtonProps> {
+export class SearchButton extends Component<SearchButtonProps> {
   render(): React.ReactNode {
     return (
       <>
@@ -13,5 +13,3 @@ class SearchButton extends Component<SearchButtonProps> {
     );
   }
 }
-
-export { SearchButton };

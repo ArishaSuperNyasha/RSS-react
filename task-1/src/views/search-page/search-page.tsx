@@ -1,5 +1,9 @@
 import { Component, ReactNode } from 'react';
-import { SearchButton, SearchInput } from './components';
+import {
+  SearchButton,
+  SearchInput,
+  TermsList,
+} from './components';
 
 export class SearchPage extends Component {
   render(): ReactNode {
@@ -7,6 +11,9 @@ export class SearchPage extends Component {
       <>
         <SearchInput />
         <SearchButton />
+        <TermsList
+          terms={Array.from({ length: 10 }, () => 'abcd')}
+        />
       </>
     );
   }
