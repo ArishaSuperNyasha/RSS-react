@@ -1,4 +1,5 @@
 import { Component, ReactNode, createRef } from 'react';
+import { TermsStorage } from '../../services';
 import {
   SearchButton,
   SearchInput,
@@ -22,7 +23,7 @@ export class SearchPage extends Component {
   private inputValue = '';
 
   private getTerms(): string[] {
-    const string = localStorage.getItem('searchTerms');
+    const string = TermsStorage.getItem('searchTerms');
     return getTermsFromString(string);
   }
 
@@ -32,7 +33,7 @@ export class SearchPage extends Component {
       searchTerms,
       newValue
     );
-    localStorage.setItem('searchTerms', newString);
+    TermsStorage.setItem('searchTerms', newString);
 
     const terms = this.getTerms();
 
