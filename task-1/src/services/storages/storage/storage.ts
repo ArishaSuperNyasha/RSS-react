@@ -1,4 +1,4 @@
-class Storage<T extends string> {
+export class Storage<T extends string> {
   private service: globalThis.Storage;
 
   constructor(service: globalThis.Storage) {
@@ -13,12 +13,3 @@ class Storage<T extends string> {
     return this.service.setItem(key, value);
   }
 }
-
-type TermsStorageKeys = 'searchTerms';
-
-const TermsStorage = new Storage<TermsStorageKeys>(
-  localStorage
-);
-Object.freeze(TermsStorage);
-
-export { TermsStorage };
