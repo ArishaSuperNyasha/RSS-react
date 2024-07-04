@@ -4,6 +4,10 @@ import {
   SearchInput,
   TermsList,
 } from './components';
+import {
+  addTermAndConvertToString,
+  getTermsFromString,
+} from './utils';
 
 export class SearchPage extends Component {
   state: {
@@ -19,31 +23,15 @@ export class SearchPage extends Component {
 
   private getTerms(): string[] {
     const string = localStorage.getItem('searchTerms');
-    if (string === '') {
-      return [];
-    } else {
-      return (
-        string
-          ?.split(/(?<=") (?=")/)
-          .map((s) => s.slice(1, s.length - 1)) ?? []
-      );
-    }
+    return getTermsFromString(string);
   }
 
   private updateSearchTerms(newValue: string): void {
-    let searchTerms = this.getTerms();
-    let newString: string;
-    if (searchTerms.length === 0 || searchTerms[0] === '') {
-      newString = `"${newValue}"`;
-    } else {
-      searchTerms = searchTerms
-        .slice(0, 11)
-        .filter((s) => s !== newValue)
-        .slice(0, 10);
-      newString = [newValue, ...searchTerms]
-        .map((s) => `"${s}"`)
-        .join(' ');
-    }
+    const searchTerms = this.getTerms();
+    const newString = addTermAndConvertToString(
+      searchTerms,
+      newValue
+    );
     localStorage.setItem('searchTerms', newString);
 
     const terms = this.getTerms();
