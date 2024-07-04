@@ -1,10 +1,12 @@
 import { Component, ReactNode } from 'react';
+import { SearchButton, SearchInput } from './components';
 
 export class SearchPage extends Component {
   render(): ReactNode {
     return (
       <>
-        <h1>Страница поиска</h1>
+        <SearchInput />
+        <SearchButton />
       </>
     );
   }
