@@ -12,12 +12,6 @@ export class SearchInput extends Component<SearchInputProps> {
     return this.inputRef.current?.value ?? '';
   }
 
-  public clearField(): void {
-    if (this.inputRef.current) {
-      this.inputRef.current.value = '';
-    }
-  }
-
   render(): React.ReactNode {
     return (
       <>
