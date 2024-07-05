@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 
 interface TermsListProps {
   className?: string;
@@ -7,6 +7,9 @@ interface TermsListProps {
 }
 
 export class TermsList extends Component<TermsListProps> {
+  private ulRef: React.RefObject<HTMLUListElement> =
+    createRef();
+
   private handleClick: React.MouseEventHandler<HTMLLIElement> =
     (event) => {
       const target = event.target;
@@ -17,6 +20,8 @@ export class TermsList extends Component<TermsListProps> {
         return;
       }
 
+      event.preventDefault();
+
       const text = target.innerText ?? '';
       this.props.callback(text);
     };
@@ -24,11 +29,16 @@ export class TermsList extends Component<TermsListProps> {
   render(): React.ReactNode {
     const arr =
       this.props.terms?.map((s) => (
-        <li onClick={this.handleClick}>{s}</li>
+        <li onMouseDown={this.handleClick}>{s}</li>
       )) ?? [];
     return (
       <>
-        <ul className={this.props.className}>{...arr}</ul>
+        <ul
+          ref={this.ulRef}
+          className={this.props.className}
+        >
+          {...arr}
+        </ul>
       </>
     );
   }

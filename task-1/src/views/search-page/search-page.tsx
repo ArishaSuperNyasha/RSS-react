@@ -25,6 +25,9 @@ export class SearchPage extends Component {
   private termsRef: React.RefObject<TermsList> =
     createRef();
 
+  private buttonRef: React.RefObject<SearchButton> =
+    createRef();
+
   private inputValue = '';
 
   private getTerms(): string[] {
@@ -77,19 +80,25 @@ export class SearchPage extends Component {
   render(): ReactNode {
     return (
       <>
-        <SearchInput
-          onInput={this.handleInput}
-          onFocus={this.onFocus}
-          onBlur={this.onFocus}
-          ref={this.inputRef}
-        />
-        <SearchButton onClick={this.handleButtonClick} />
-        <TermsList
-          callback={this.handleLiClick}
-          ref={this.termsRef}
-          className={this.state.isFocus ? '' : 'hidden'}
-          terms={this.state.terms}
-        />
+        <form>
+          <SearchInput
+            onFocus={this.onFocus}
+            onBlur={this.onFocus}
+            onInput={this.handleInput}
+            ref={this.inputRef}
+          />
+          <SearchButton
+            ref={this.buttonRef}
+            onClick={this.handleButtonClick}
+          />
+          <TermsList
+            callback={this.handleLiClick}
+            ref={this.termsRef}
+            className={this.state.isFocus ? '' : 'hidden'}
+            terms={this.state.terms}
+          />
+        </form>
+        <div></div>
       </>
     );
   }
