@@ -69,6 +69,11 @@ export class SearchPage extends Component {
       this.inputValue = inputValue;
     };
 
+  private handleLiClick = (text: string) => {
+    this.inputRef.current?.inputValue(text);
+    this.inputValue = text;
+  };
+
   render(): ReactNode {
     return (
       <>
@@ -80,6 +85,7 @@ export class SearchPage extends Component {
         />
         <SearchButton onClick={this.handleButtonClick} />
         <TermsList
+          callback={this.handleLiClick}
           ref={this.termsRef}
           className={this.state.isFocus ? '' : 'hidden'}
           terms={this.state.terms}

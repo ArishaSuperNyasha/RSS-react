@@ -14,6 +14,13 @@ export class SearchInput extends Component<SearchInputProps> {
     return this.inputRef.current?.value ?? '';
   }
 
+  public inputValue(stroke: string): void {
+    const inputElement = this.inputRef.current;
+    if (inputElement) {
+      inputElement.value = stroke;
+    }
+  }
+
   render(): React.ReactNode {
     return (
       <>
