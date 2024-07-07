@@ -1,4 +1,6 @@
-type ApiPromise = Promise<unknown>;
+import { AllCharsData } from './interfaces';
+
+type AllCharsPromise = Promise<AllCharsData>;
 
 export class Api {
   private static baseUrl =
@@ -8,7 +10,7 @@ export class Api {
 
   public static async getAllChars(
     pageNumber = 1
-  ): ApiPromise {
+  ): AllCharsPromise {
     const params = new URLSearchParams({
       page: `${pageNumber}`,
       pageSize: `${this.pageSize}`,
@@ -20,7 +22,7 @@ export class Api {
   public static async getCharsByName(
     name: string,
     pageNumber = 1
-  ): ApiPromise {
+  ): AllCharsPromise {
     const params = new URLSearchParams({
       name,
       page: `${pageNumber}`,
@@ -32,7 +34,7 @@ export class Api {
 
   private static async handleResponse(
     params: URLSearchParams
-  ): ApiPromise {
+  ): AllCharsPromise {
     const response = await fetch(
       `${this.baseUrl}?${params}`,
       {
@@ -40,7 +42,7 @@ export class Api {
       }
     );
 
-    const json = await response.json();
+    const json: AllCharsData = await response.json();
     return json;
   }
 }

@@ -13,9 +13,11 @@ import {
 export class SearchPage extends Component {
   state: {
     terms: string[];
+    searchResults: unknown;
     isFocus: boolean;
   } = {
     terms: this.getTerms(),
+    searchResults: null,
     isFocus: false,
   };
 
@@ -36,10 +38,15 @@ export class SearchPage extends Component {
   }
 
   private updateSearchTerms(newValue: string): void {
+    const trimmedValue = newValue.trim();
+    if (trimmedValue === '') {
+      return;
+    }
+
     const searchTerms = this.getTerms();
     const newString = addTermAndConvertToString(
       searchTerms,
-      newValue
+      trimmedValue
     );
     TermsStorage.setItem('searchTerms', newString);
 
@@ -67,9 +74,9 @@ export class SearchPage extends Component {
       }
       this.updateSearchTerms(trimmedValue);
 
-      const response =
-        await Api.getCharsByName(trimmedValue);
-      console.log(response);
+      Api.getCharsByName(trimmedValue).then((json) =>
+        this.setState({ searchResults: json })
+      );
     };
 
   private handleInput: React.FormEventHandler<HTMLInputElement> =
@@ -86,6 +93,19 @@ export class SearchPage extends Component {
     this.inputRef.current?.inputValue(text);
     this.inputValue = text;
   };
+
+  componentDidMount(): void {
+    const firstTerm = this.getTerms()[0];
+    let promise;
+    if (!firstTerm) {
+      promise = Api.getAllChars();
+    } else {
+      promise = Api.getCharsByName(firstTerm);
+    }
+    promise.then((json) =>
+      this.setState({ searchResults: json })
+    );
+  }
 
   render(): ReactNode {
     return (
