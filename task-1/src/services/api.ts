@@ -40,7 +40,13 @@ export class Api {
       {
         method: 'GET',
       }
-    );
+    ).then((res) => {
+      if (res.ok) {
+        return res;
+      } else {
+        throw new Error(`${res.status}: ${res.statusText}`);
+      }
+    });
 
     const json: AllCharsData = await response.json();
     return json;
