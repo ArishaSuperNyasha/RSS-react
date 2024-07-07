@@ -43,15 +43,10 @@ export class SearchPage extends Component {
   }
 
   private updateSearchTerms(newValue: string): void {
-    const trimmedValue = newValue.trim();
-    if (trimmedValue === '') {
-      return;
-    }
-
     const searchTerms = this.getTerms();
     const newString = addTermAndConvertToString(
       searchTerms,
-      trimmedValue
+      newValue
     );
     TermsStorage.setItem('searchTerms', newString);
 
@@ -60,6 +55,25 @@ export class SearchPage extends Component {
     this.setState({
       terms,
     });
+  }
+
+  private sendSearchRequest(
+    value?: string,
+    options = { updateTerms: false }
+  ): void {
+    const trimmedValue = value?.trim();
+    let promise;
+    if (trimmedValue === undefined || trimmedValue === '') {
+      promise = Api.getAllChars();
+    } else {
+      if (options.updateTerms) {
+        this.updateSearchTerms(trimmedValue);
+      }
+      promise = Api.getCharsByName(trimmedValue);
+    }
+    promise.then((json) =>
+      this.setState({ searchResults: json })
+    );
   }
 
   private onFocus: React.FormEventHandler<HTMLInputElement> =
@@ -74,14 +88,13 @@ export class SearchPage extends Component {
 
       const newValue = this.inputValue;
       const trimmedValue = newValue.trim();
-      if (trimmedValue === '') {
-        return;
+      if (trimmedValue !== '') {
+        this.updateSearchTerms(trimmedValue);
       }
-      this.updateSearchTerms(trimmedValue);
 
-      Api.getCharsByName(trimmedValue).then((json) =>
-        this.setState({ searchResults: json })
-      );
+      this.sendSearchRequest(trimmedValue, {
+        updateTerms: true,
+      });
     };
 
   private handleInput: React.FormEventHandler<HTMLInputElement> =
@@ -101,15 +114,7 @@ export class SearchPage extends Component {
 
   componentDidMount(): void {
     const firstTerm = this.getTerms()[0];
-    let promise;
-    if (!firstTerm) {
-      promise = Api.getAllChars();
-    } else {
-      promise = Api.getCharsByName(firstTerm);
-    }
-    promise.then((json) =>
-      this.setState({ searchResults: json })
-    );
+    this.sendSearchRequest(firstTerm);
   }
 
   render(): ReactNode {
