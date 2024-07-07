@@ -121,6 +121,7 @@ export class SearchPage extends Component {
   render(): ReactNode {
     return (
       <div className="search-page">
+        <h1>Disney Heroes</h1>
         <form>
           <SearchInput
             onFocus={this.onFocus}

@@ -64,6 +64,9 @@ input {
   border: var(--hover-border);
   font: inherit;
 }
+input::placeholder {
+  color: rgba(0, 0, 0, 0.469);
+}
 
 @media (prefers-color-scheme: light) {
   :root {
