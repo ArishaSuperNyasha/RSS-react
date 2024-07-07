@@ -1,5 +1,5 @@
 import { Component, ReactNode, createRef } from 'react';
-import { TermsStorage } from '../../services';
+import { Api, TermsStorage } from '../../services';
 import {
   SearchButton,
   SearchInput,
@@ -57,9 +57,19 @@ export class SearchPage extends Component {
     };
 
   private handleButtonClick: React.MouseEventHandler<HTMLButtonElement> =
-    () => {
+    async (event) => {
+      event.preventDefault();
+
       const newValue = this.inputValue;
-      this.updateSearchTerms(newValue);
+      const trimmedValue = newValue.trim();
+      if (trimmedValue === '') {
+        return;
+      }
+      this.updateSearchTerms(trimmedValue);
+
+      const response =
+        await Api.getCharsByName(trimmedValue);
+      console.log(response);
     };
 
   private handleInput: React.FormEventHandler<HTMLInputElement> =
