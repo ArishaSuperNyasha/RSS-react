@@ -3,6 +3,7 @@ import { AllCharsData } from '../../../../services';
 
 interface SearchResultsProps {
   searchResults?: AllCharsData;
+  className?: string;
 }
 
 export class SearchResults extends Component<SearchResultsProps> {
@@ -29,6 +30,8 @@ export class SearchResults extends Component<SearchResultsProps> {
         );
       }) ?? [];
 
-    return <div>{...arr}</div>;
+    return (
+      <div className={this.props.className}>{...arr}</div>
+    );
   }
 }

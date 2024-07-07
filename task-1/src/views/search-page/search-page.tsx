@@ -14,6 +14,7 @@ import {
   addTermAndConvertToString,
   getTermsFromString,
 } from './utils';
+import './style.css';
 
 export class SearchPage extends Component {
   state: {
@@ -119,7 +120,7 @@ export class SearchPage extends Component {
 
   render(): ReactNode {
     return (
-      <>
+      <div className="search-page">
         <form>
           <SearchInput
             onFocus={this.onFocus}
@@ -140,8 +141,9 @@ export class SearchPage extends Component {
         </form>
         <SearchResults
           searchResults={this.state.searchResults}
-        />
-      </>
+          className="results"
+        ></SearchResults>
+      </div>
     );
   }
 }

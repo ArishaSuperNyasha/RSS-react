@@ -1,5 +1,6 @@
 import React from 'react';
-import { ChildrenProps } from './interfaces';
+import { ChildrenProps } from '../interfaces';
+import './style.css';
 
 export class ErrorButtonWrapper extends React.Component<ChildrenProps> {
   state: Readonly<{
@@ -23,7 +24,7 @@ export class ErrorButtonWrapper extends React.Component<ChildrenProps> {
       );
     }
     return (
-      <div>
+      <div className="error-button-wrapper">
         <button onClick={this.onClick}>
           Generate Error
         </button>
