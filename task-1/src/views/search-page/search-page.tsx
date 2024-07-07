@@ -1,8 +1,13 @@
 import { Component, ReactNode, createRef } from 'react';
-import { Api, TermsStorage } from '../../services';
+import {
+  Api,
+  TermsStorage,
+  AllCharsData,
+} from '../../services';
 import {
   SearchButton,
   SearchInput,
+  SearchResults,
   TermsList,
 } from './components';
 import {
@@ -13,11 +18,11 @@ import {
 export class SearchPage extends Component {
   state: {
     terms: string[];
-    searchResults: unknown;
+    searchResults?: AllCharsData;
     isFocus: boolean;
   } = {
     terms: this.getTerms(),
-    searchResults: null,
+    searchResults: undefined,
     isFocus: false,
   };
 
@@ -128,7 +133,9 @@ export class SearchPage extends Component {
             terms={this.state.terms}
           />
         </form>
-        <div></div>
+        <SearchResults
+          searchResults={this.state.searchResults}
+        />
       </>
     );
   }
