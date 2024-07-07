@@ -10,6 +10,6 @@
   "bracketSameLine": false,
   "trailingComma": "es5",
   "semi": true,
-  "jsxSingleQuote": false,
+  "jsxSingleQuote": true,
   "endOfLine": "lf"
 }

@@ -12,7 +12,7 @@
     "prepare": "cd .. && husky husky/.husky"
   },
   "lint-staged": {
-    "*.{ts,tsx,js,scss,less,json}": "npm run lint"
+    "*.{ts,tsx,js,css,scss,less,json}": "npm run lint"
   },
   "devDependencies": {
     "@babel/plugin-transform-private-methods": "^7.24.7",

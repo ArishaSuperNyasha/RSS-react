@@ -120,7 +120,7 @@ export class SearchPage extends Component {
 
   render(): ReactNode {
     return (
-      <div className="search-page">
+      <div className='search-page'>
         <h1>Disney Heroes</h1>
         <form>
           <SearchInput
@@ -142,7 +142,7 @@ export class SearchPage extends Component {
         </form>
         <SearchResults
           searchResults={this.state.searchResults}
-          className="results"
+          className='results'
         ></SearchResults>
       </div>
     );

@@ -24,7 +24,7 @@ export class ErrorButtonWrapper extends React.Component<ChildrenProps> {
       );
     }
     return (
-      <div className="error-button-wrapper">
+      <div className='error-button-wrapper'>
         <button onClick={this.onClick}>
           Generate Error
         </button>

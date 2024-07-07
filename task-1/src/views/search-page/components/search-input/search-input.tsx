@@ -29,10 +29,10 @@ export class SearchInput extends Component<SearchInputProps> {
           onInput={this.props.onInput}
           onFocus={this.props.onFocus}
           onBlur={this.props.onBlur}
-          placeholder="Cinderella"
-          type="text"
+          placeholder='Cinderella'
+          type='text'
           autoFocus={true}
-          autoSave="search"
+          autoSave='search'
         />
       </>
     );
