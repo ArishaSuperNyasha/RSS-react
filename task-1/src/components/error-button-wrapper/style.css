@@ -1,0 +1,16 @@
+.error-button-wrapper {
+  position: relative;
+}
+
+.error-button-wrapper > button {
+  position: absolute;
+  margin-bottom: 1rem;
+  top: 0;
+  right: 0;
+}
+
+@media (max-width: 900px) {
+  .error-button-wrapper > button {
+    position: static;
+  }
+}
