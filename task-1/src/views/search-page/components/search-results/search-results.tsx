@@ -1,4 +1,3 @@
-import React, { Component } from 'react';
 import {
   CharData,
   AllCharsData,
@@ -15,8 +14,10 @@ interface SectionDescription {
   text: string;
 }
 
-export class SearchResults extends Component<SearchResultsProps> {
-  private getDescription(charData: CharData): string[] {
+export const SearchResults = (
+  props: SearchResultsProps
+) => {
+  function getDescription(charData: CharData): string[] {
     return (
       [
         ['film: ', charData.films[0]],
@@ -29,7 +30,7 @@ export class SearchResults extends Component<SearchResultsProps> {
     );
   }
 
-  private getSection(
+  function getSection(
     description: SectionDescription
   ): JSX.Element {
     const { name, type, text } = { ...description };
@@ -44,34 +45,18 @@ export class SearchResults extends Component<SearchResultsProps> {
     );
   }
 
-  render(): React.ReactNode {
-    const data = this.props.searchResults?.data;
-    let arr: JSX.Element[];
-    if (Array.isArray(data)) {
-      arr =
-        data?.map((res) => {
-          const description = this.getDescription(res);
-          return this.getSection({
-            name: res.name,
-            type: description[0],
-            text: description[1],
-          });
-        }) ?? [];
-    } else if (data) {
-      const description = this.getDescription(data);
-      arr = [
-        this.getSection({
-          name: data.name,
-          type: description[0],
-          text: description[1],
-        }),
-      ];
-    } else {
-      arr = [];
-    }
+  const data = props.searchResults?.data;
+  const cardsArr: JSX.Element[] =
+    data?.map((res) => {
+      const description = getDescription(res);
+      return getSection({
+        name: res.name,
+        type: description[0],
+        text: description[1],
+      });
+    }) ?? [];
 
-    return (
-      <div className={this.props.className}>{...arr}</div>
-    );
-  }
-}
+  return (
+    <div className={props.className}>{...cardsArr}</div>
+  );
+};

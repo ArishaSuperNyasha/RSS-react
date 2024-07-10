@@ -49,6 +49,11 @@ export class Api {
     });
 
     const json: AllCharsData = await response.json();
+
+    if (!Array.isArray(json.data)) {
+      json.data = [json.data];
+    }
+
     return json;
   }
 }

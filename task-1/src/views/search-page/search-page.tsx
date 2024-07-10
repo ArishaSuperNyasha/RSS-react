@@ -27,13 +27,20 @@ export class SearchPage extends Component {
     isFocus: false,
   };
 
-  private inputRef: React.RefObject<SearchInput> =
-    createRef();
+  private inputRef: null | HTMLInputElement = null;
+
+  public getValue(): string {
+    return this.inputRef?.value ?? '';
+  }
+
+  public pasteValue(stroke: string): void {
+    const inputElement = this.inputRef;
+    if (inputElement) {
+      inputElement.value = stroke;
+    }
+  }
 
   private termsRef: React.RefObject<TermsList> =
-    createRef();
-
-  private buttonRef: React.RefObject<SearchButton> =
     createRef();
 
   private inputValue = '';
@@ -100,7 +107,7 @@ export class SearchPage extends Component {
 
   private handleInput: React.FormEventHandler<HTMLInputElement> =
     () => {
-      const inputValue = this.inputRef.current?.getValue();
+      const inputValue = this.getValue();
       if (!inputValue) {
         return;
       }
@@ -109,7 +116,7 @@ export class SearchPage extends Component {
     };
 
   private handleLiClick = (text: string) => {
-    this.inputRef.current?.inputValue(text);
+    this.pasteValue(text);
     this.inputValue = text;
   };
 
@@ -127,12 +134,9 @@ export class SearchPage extends Component {
             onFocus={this.onFocus}
             onBlur={this.onFocus}
             onInput={this.handleInput}
-            ref={this.inputRef}
+            inputRef={(elem) => (this.inputRef = elem)}
           />
-          <SearchButton
-            ref={this.buttonRef}
-            onClick={this.handleButtonClick}
-          />
+          <SearchButton onClick={this.handleButtonClick} />
           <TermsList
             callback={this.handleLiClick}
             ref={this.termsRef}

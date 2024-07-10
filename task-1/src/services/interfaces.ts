@@ -16,7 +16,7 @@ export type CharData = {
 };
 
 export type AllCharsData = {
-  data: CharData[] | CharData;
+  data: CharData[];
   info: {
     count: number;
     nextPage: string | null;
