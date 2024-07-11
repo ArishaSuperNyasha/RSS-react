@@ -6,9 +6,6 @@ export const ErrorButtonWrapper = (
   props: ChildrenProps
 ) => {
   const [hasErrror, setError] = useState<boolean>(false);
-  const onClick = () => {
-    setError(true);
-  };
 
   if (hasErrror) {
     throw new Error(
@@ -17,7 +14,9 @@ export const ErrorButtonWrapper = (
   }
   return (
     <div className='error-button-wrapper'>
-      <button onClick={onClick}>Generate Error</button>
+      <button onClick={() => setError(true)}>
+        Generate Error
+      </button>
       {props.children}
     </div>
   );
