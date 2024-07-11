@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useCallback, useRef } from 'react';
 
 interface TermsListProps {
   className?: string;
@@ -10,22 +10,26 @@ export const TermsList = (props: TermsListProps) => {
   const ulRef: React.RefObject<HTMLUListElement> =
     useRef(null);
 
-  const handleClick: React.MouseEventHandler<
-    HTMLLIElement
-  > = (event) => {
-    const target = event.target;
-    if (
-      !(target instanceof HTMLLIElement) ||
-      !props.callback
-    ) {
-      return;
-    }
+  const handleClick: React.MouseEventHandler<HTMLLIElement> =
+    useCallback(
+      (event) => {
+        const target = event.target;
+        if (
+          !(target instanceof HTMLLIElement) ||
+          !props.callback
+        ) {
+          return;
+        }
 
-    event.preventDefault();
+        event.preventDefault();
 
-    const text = target.innerText ?? '';
-    props.callback(text);
-  };
+        const text = target.innerText ?? '';
+        props.callback(text);
+      },
+      [props]
+    );
+
+  console.log('terms');
 
   const arr =
     props.terms?.map((s) => (

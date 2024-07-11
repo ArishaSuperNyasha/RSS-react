@@ -13,6 +13,8 @@ import {
 import {
   addTermAndConvertToString,
   getTermsFromString,
+  getInputValue as getValue,
+  pasteValueIntoInput as pasteValue,
 } from './utils';
 import './style.css';
 
@@ -20,6 +22,12 @@ function getTerms(): string[] {
   const string = TermsStorage.getItem('searchTerms');
   return getTermsFromString(string);
 }
+
+let inputRef: null | HTMLInputElement = null;
+
+const handleLiClick = (text: string) => {
+  pasteValue(inputRef, text);
+};
 
 export const SearchPage = () => {
   const [terms, setTerms] = useState<string[]>(() =>
@@ -29,6 +37,22 @@ export const SearchPage = () => {
     AllCharsData | undefined
   >(undefined);
   const [isFocus, setIsFocus] = useState<boolean>(false);
+
+  const updateSearchTerms = useCallback(
+    function (newValue: string): void {
+      const searchTerms = getTerms();
+      const newString = addTermAndConvertToString(
+        searchTerms,
+        newValue
+      );
+      TermsStorage.setItem('searchTerms', newString);
+
+      const terms = getTerms();
+
+      setTerms(terms);
+    },
+    [setTerms]
+  );
 
   const sendSearchRequest = useCallback(
     (value?: string, options = { updateTerms: false }) => {
@@ -47,67 +71,40 @@ export const SearchPage = () => {
       }
       promise.then((json) => setSearchResults(json));
     },
-    []
+    [updateSearchTerms]
   );
 
   useEffect(() => {
     const firstTerm = getTerms()[0];
     sendSearchRequest(firstTerm);
-    console.log('Only once');
   }, [sendSearchRequest]);
 
-  let inputRef: null | HTMLInputElement = null;
-
-  function getValue(): string {
-    return inputRef?.value ?? '';
-  }
-
-  function pasteValue(stroke: string): void {
-    const inputElement = inputRef;
-    if (inputElement) {
-      inputElement.value = stroke;
-    }
-  }
-
-  function updateSearchTerms(newValue: string): void {
-    const searchTerms = getTerms();
-    const newString = addTermAndConvertToString(
-      searchTerms,
-      newValue
+  const onFocus: React.FormEventHandler<HTMLInputElement> =
+    useCallback(
+      (event) => {
+        const isFocus = event.type === 'focus';
+        setIsFocus(isFocus);
+      },
+      [setIsFocus]
     );
-    TermsStorage.setItem('searchTerms', newString);
 
-    const terms = getTerms();
+  const handleButtonClick: React.MouseEventHandler<HTMLButtonElement> =
+    useCallback(
+      async (event) => {
+        event.preventDefault();
 
-    setTerms(terms);
-  }
+        const newValue = getValue(inputRef);
+        const trimmedValue = newValue.trim();
+        if (trimmedValue !== '') {
+          updateSearchTerms(trimmedValue);
+        }
 
-  const onFocus: React.FormEventHandler<
-    HTMLInputElement
-  > = (event) => {
-    const isFocus = event.type === 'focus';
-    setIsFocus(isFocus);
-  };
-
-  const handleButtonClick: React.MouseEventHandler<
-    HTMLButtonElement
-  > = async (event) => {
-    event.preventDefault();
-
-    const newValue = getValue();
-    const trimmedValue = newValue.trim();
-    if (trimmedValue !== '') {
-      updateSearchTerms(trimmedValue);
-    }
-
-    sendSearchRequest(trimmedValue, {
-      updateTerms: true,
-    });
-  };
-
-  const handleLiClick = (text: string) => {
-    pasteValue(text);
-  };
+        sendSearchRequest(trimmedValue, {
+          updateTerms: true,
+        });
+      },
+      [updateSearchTerms, sendSearchRequest]
+    );
 
   return (
     <div className='search-page'>
