@@ -1,4 +1,4 @@
-import { Component, ReactNode, createRef } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import {
   Api,
   TermsStorage,
@@ -16,139 +16,119 @@ import {
 } from './utils';
 import './style.css';
 
-export class SearchPage extends Component {
-  state: {
-    terms: string[];
-    searchResults?: AllCharsData;
-    isFocus: boolean;
-  } = {
-    terms: this.getTerms(),
-    searchResults: undefined,
-    isFocus: false,
-  };
+function getTerms(): string[] {
+  const string = TermsStorage.getItem('searchTerms');
+  return getTermsFromString(string);
+}
 
-  private inputRef: null | HTMLInputElement = null;
+export const SearchPage = () => {
+  const [terms, setTerms] = useState<string[]>(() =>
+    getTerms()
+  );
+  const [searchResults, setSearchResults] = useState<
+    AllCharsData | undefined
+  >(undefined);
+  const [isFocus, setIsFocus] = useState<boolean>(false);
 
-  public getValue(): string {
-    return this.inputRef?.value ?? '';
+  const sendSearchRequest = useCallback(
+    (value?: string, options = { updateTerms: false }) => {
+      const trimmedValue = value?.trim();
+      let promise;
+      if (
+        trimmedValue === undefined ||
+        trimmedValue === ''
+      ) {
+        promise = Api.getAllChars();
+      } else {
+        if (options.updateTerms) {
+          updateSearchTerms(trimmedValue);
+        }
+        promise = Api.getCharsByName(trimmedValue);
+      }
+      promise.then((json) => setSearchResults(json));
+    },
+    []
+  );
+
+  useEffect(() => {
+    const firstTerm = getTerms()[0];
+    sendSearchRequest(firstTerm);
+    console.log('Only once');
+  }, [sendSearchRequest]);
+
+  let inputRef: null | HTMLInputElement = null;
+
+  function getValue(): string {
+    return inputRef?.value ?? '';
   }
 
-  public pasteValue(stroke: string): void {
-    const inputElement = this.inputRef;
+  function pasteValue(stroke: string): void {
+    const inputElement = inputRef;
     if (inputElement) {
       inputElement.value = stroke;
     }
   }
 
-  private termsRef: React.RefObject<TermsList> =
-    createRef();
-
-  private inputValue = '';
-
-  private getTerms(): string[] {
-    const string = TermsStorage.getItem('searchTerms');
-    return getTermsFromString(string);
-  }
-
-  private updateSearchTerms(newValue: string): void {
-    const searchTerms = this.getTerms();
+  function updateSearchTerms(newValue: string): void {
+    const searchTerms = getTerms();
     const newString = addTermAndConvertToString(
       searchTerms,
       newValue
     );
     TermsStorage.setItem('searchTerms', newString);
 
-    const terms = this.getTerms();
+    const terms = getTerms();
 
-    this.setState({
-      terms,
-    });
+    setTerms(terms);
   }
 
-  private sendSearchRequest(
-    value?: string,
-    options = { updateTerms: false }
-  ): void {
-    const trimmedValue = value?.trim();
-    let promise;
-    if (trimmedValue === undefined || trimmedValue === '') {
-      promise = Api.getAllChars();
-    } else {
-      if (options.updateTerms) {
-        this.updateSearchTerms(trimmedValue);
-      }
-      promise = Api.getCharsByName(trimmedValue);
-    }
-    promise.then((json) =>
-      this.setState({ searchResults: json })
-    );
-  }
-
-  private onFocus: React.FormEventHandler<HTMLInputElement> =
-    (event) => {
-      const isFocus = event.type === 'focus';
-      this.setState({ isFocus });
-    };
-
-  private handleButtonClick: React.MouseEventHandler<HTMLButtonElement> =
-    async (event) => {
-      event.preventDefault();
-
-      const newValue = this.inputValue;
-      const trimmedValue = newValue.trim();
-      if (trimmedValue !== '') {
-        this.updateSearchTerms(trimmedValue);
-      }
-
-      this.sendSearchRequest(trimmedValue, {
-        updateTerms: true,
-      });
-    };
-
-  private handleInput: React.FormEventHandler<HTMLInputElement> =
-    () => {
-      const inputValue = this.getValue();
-      if (!inputValue) {
-        return;
-      }
-
-      this.inputValue = inputValue;
-    };
-
-  private handleLiClick = (text: string) => {
-    this.pasteValue(text);
-    this.inputValue = text;
+  const onFocus: React.FormEventHandler<
+    HTMLInputElement
+  > = (event) => {
+    const isFocus = event.type === 'focus';
+    setIsFocus(isFocus);
   };
 
-  componentDidMount(): void {
-    const firstTerm = this.getTerms()[0];
-    this.sendSearchRequest(firstTerm);
-  }
+  const handleButtonClick: React.MouseEventHandler<
+    HTMLButtonElement
+  > = async (event) => {
+    event.preventDefault();
 
-  render(): ReactNode {
-    return (
-      <div className='search-page'>
-        <h1>Disney Heroes</h1>
-        <form>
-          <SearchInput
-            onFocus={this.onFocus}
-            onBlur={this.onFocus}
-            onInput={this.handleInput}
-            inputRef={(elem) => (this.inputRef = elem)}
-          />
-          <SearchButton onClick={this.handleButtonClick} />
-          <TermsList
-            callback={this.handleLiClick}
-            ref={this.termsRef}
-            className={this.state.isFocus ? '' : 'hidden'}
-            terms={this.state.terms}
-          />
-        </form>
-        <SearchResults
-          searchResults={this.state.searchResults}
-          className='results'
-        ></SearchResults>
-      </div>
-    );
-  }
-}
+    const newValue = getValue();
+    const trimmedValue = newValue.trim();
+    if (trimmedValue !== '') {
+      updateSearchTerms(trimmedValue);
+    }
+
+    sendSearchRequest(trimmedValue, {
+      updateTerms: true,
+    });
+  };
+
+  const handleLiClick = (text: string) => {
+    pasteValue(text);
+  };
+
+  return (
+    <div className='search-page'>
+      <h1>Disney Heroes</h1>
+      <form>
+        <SearchInput
+          onFocus={onFocus}
+          onBlur={onFocus}
+          inputRef={(elem) => (inputRef = elem)}
+        />
+        <SearchButton onClick={handleButtonClick} />
+        <TermsList
+          callback={handleLiClick}
+          className={isFocus ? '' : 'hidden'}
+          terms={terms}
+        />
+      </form>
+      <SearchResults
+        searchResults={searchResults}
+        className='results'
+      ></SearchResults>
+    </div>
+  );
+};
