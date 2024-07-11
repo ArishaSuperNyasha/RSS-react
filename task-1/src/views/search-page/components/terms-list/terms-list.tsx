@@ -1,4 +1,4 @@
-import React, { Component, createRef } from 'react';
+import React, { useRef } from 'react';
 
 interface TermsListProps {
   className?: string;
@@ -6,40 +6,36 @@ interface TermsListProps {
   callback?: (text: string) => void;
 }
 
-export class TermsList extends Component<TermsListProps> {
-  private ulRef: React.RefObject<HTMLUListElement> =
-    createRef();
+export const TermsList = (props: TermsListProps) => {
+  const ulRef: React.RefObject<HTMLUListElement> =
+    useRef(null);
 
-  private handleClick: React.MouseEventHandler<HTMLLIElement> =
-    (event) => {
-      const target = event.target;
-      if (
-        !(target instanceof HTMLLIElement) ||
-        !this.props.callback
-      ) {
-        return;
-      }
+  const handleClick: React.MouseEventHandler<
+    HTMLLIElement
+  > = (event) => {
+    const target = event.target;
+    if (
+      !(target instanceof HTMLLIElement) ||
+      !props.callback
+    ) {
+      return;
+    }
 
-      event.preventDefault();
+    event.preventDefault();
 
-      const text = target.innerText ?? '';
-      this.props.callback(text);
-    };
+    const text = target.innerText ?? '';
+    props.callback(text);
+  };
 
-  render(): React.ReactNode {
-    const arr =
-      this.props.terms?.map((s) => (
-        <li onMouseDown={this.handleClick}>{s}</li>
-      )) ?? [];
-    return (
-      <>
-        <ul
-          ref={this.ulRef}
-          className={this.props.className}
-        >
-          {...arr}
-        </ul>
-      </>
-    );
-  }
-}
+  const arr =
+    props.terms?.map((s) => (
+      <li onMouseDown={handleClick}>{s}</li>
+    )) ?? [];
+  return (
+    <>
+      <ul ref={ulRef} className={props.className}>
+        {...arr}
+      </ul>
+    </>
+  );
+};
