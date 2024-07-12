@@ -7,18 +7,19 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import { Page404, CharacterDetails } from './views';
-import { loader } from './hooks';
+import { detailsLoader, resultsLoader } from './utils';
 
 const router = createBrowserRouter([
   {
-    path: '/',
+    path: '/:pageNumber',
     element: <App />,
     errorElement: <Page404 />,
+    loader: resultsLoader,
     children: [
       {
         path: 'characters/:characterId',
         element: <CharacterDetails />,
-        loader,
+        loader: detailsLoader,
       },
     ],
   },

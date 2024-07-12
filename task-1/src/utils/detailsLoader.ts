@@ -1,15 +1,15 @@
 import { Params } from 'react-router-dom';
 import { Api, OneCharData } from '../services';
 
-export type LoaderReturnType = {
+export type CharacterLoaderReturnType = {
   character: OneCharData;
 } | null;
 
-export const loader = async ({
+export const detailsLoader = async ({
   params,
 }: {
   params: Params<'characterId'>;
-}): Promise<LoaderReturnType> => {
+}): Promise<CharacterLoaderReturnType> => {
   const id = params.characterId;
   if (!id) {
     return null;

@@ -17,6 +17,9 @@ import {
   pasteValueIntoInput as pasteValue,
 } from './utils';
 import './style.css';
+import { Pagination } from '../../components';
+import { ResultsLoaderReturnType } from '../../utils';
+import { useLoaderData } from 'react-router-dom';
 
 function getTerms(): string[] {
   const string = TermsStorage.getItem('searchTerms');
@@ -30,12 +33,16 @@ const handleLiClick = (text: string) => {
 };
 
 export const SearchPage = () => {
+  const data = useLoaderData() as ResultsLoaderReturnType;
+  const totalPages = data?.results.info.totalPages ?? 10;
+  const results = data?.results;
+
   const [terms, setTerms] = useState<string[]>(() =>
     getTerms()
   );
   const [searchResults, setSearchResults] = useState<
     AllCharsData | undefined
-  >(undefined);
+  >(results ?? undefined);
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
   const updateSearchTerms = useCallback(
@@ -126,6 +133,10 @@ export const SearchPage = () => {
         searchResults={searchResults}
         className='results'
       ></SearchResults>
+      <Pagination
+        buttonsCount={5}
+        totalPages={totalPages ?? 10}
+      />
     </div>
   );
 };

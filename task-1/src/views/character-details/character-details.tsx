@@ -1,8 +1,8 @@
 import { useLoaderData } from 'react-router-dom';
-import { LoaderReturnType } from '../../hooks';
+import { CharacterLoaderReturnType } from '../../utils';
 
 export const CharacterDetails = () => {
-  const data = useLoaderData() as LoaderReturnType;
+  const data = useLoaderData() as CharacterLoaderReturnType;
   if (!data) {
     return;
   }
