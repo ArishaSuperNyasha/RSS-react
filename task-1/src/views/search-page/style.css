@@ -41,7 +41,7 @@
   gap: 0.5rem;
 }
 
-.results > section {
+.results > a > section {
   display: flex;
   flex-direction: column;
   text-align: start;
@@ -52,16 +52,13 @@
   border-radius: 0.5rem;
 }
 
-.results > section > div {
+.results > a > section > div {
   display: grid;
   grid-template-columns: 3fr 7fr;
   align-items: baseline;
 }
 
-.results > section > div *:last-child {
-}
-
-.results > section > div *:last-child {
+.results > a > section > div *:last-child {
   padding-left: 1rem;
   border-left: var(--hover-border);
 }

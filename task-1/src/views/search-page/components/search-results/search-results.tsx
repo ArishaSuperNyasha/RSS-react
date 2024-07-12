@@ -3,6 +3,7 @@ import {
   CharData,
   AllCharsData,
 } from '../../../../services';
+import { Link } from 'react-router-dom';
 
 interface SearchResultsProps {
   searchResults?: AllCharsData;
@@ -13,6 +14,7 @@ interface SectionDescription {
   name: string;
   type: string;
   text: string;
+  _id: number;
 }
 
 function getDescription(charData: CharData): string[] {
@@ -31,15 +33,17 @@ function getDescription(charData: CharData): string[] {
 function getSection(
   description: SectionDescription
 ): JSX.Element {
-  const { name, type, text } = { ...description };
+  const { name, type, text, _id } = { ...description };
   return (
-    <section>
-      <h3>{name}</h3>
-      <div>
-        <h4>{type}</h4>
-        <p>{text}</p>
-      </div>
-    </section>
+    <Link to={`characters/${_id}`}>
+      <section>
+        <h3>{name}</h3>
+        <div>
+          <h4>{type}</h4>
+          <p>{text}</p>
+        </div>
+      </section>
+    </Link>
   );
 }
 
@@ -52,6 +56,7 @@ export const SearchResults = (
       data?.map((res) => {
         const description = getDescription(res);
         return getSection({
+          _id: res._id,
           name: res.name,
           type: description[0],
           text: description[1],

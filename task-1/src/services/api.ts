@@ -1,6 +1,8 @@
-import { AllCharsData } from './interfaces';
+import { AllCharsData, OneCharData } from './interfaces';
 
 type AllCharsPromise = Promise<AllCharsData>;
+
+type OneCharPromise = Promise<OneCharData>;
 
 export class Api {
   private static baseUrl =
@@ -16,7 +18,9 @@ export class Api {
       pageSize: `${this.pageSize}`,
     });
 
-    return await this.handleResponse(params);
+    return await this.handleResponse<AllCharsData>({
+      params,
+    });
   }
 
   public static async getCharsByName(
@@ -29,14 +33,32 @@ export class Api {
       pageSize: `${this.pageSize}`,
     });
 
-    return await this.handleResponse(params);
+    return await this.handleResponse<AllCharsData>({
+      params,
+    });
   }
 
-  private static async handleResponse(
-    params: URLSearchParams
-  ): AllCharsPromise {
+  public static async getCharById(
+    idEndpoint: number
+  ): OneCharPromise {
+    return await this.handleResponse<OneCharData>({
+      idEndpoint,
+    });
+  }
+
+  private static async handleResponse<
+    T extends AllCharsData | OneCharData,
+  >(configs: {
+    params?: URLSearchParams;
+    idEndpoint?: number;
+  }): Promise<T> {
+    const { idEndpoint, params } = configs;
+    const urlEnding =
+      typeof idEndpoint === 'number'
+        ? `/${idEndpoint}`
+        : `?${params}`;
     const response = await fetch(
-      `${this.baseUrl}?${params}`,
+      `${this.baseUrl}${urlEnding}`,
       {
         method: 'GET',
       }
@@ -48,7 +70,7 @@ export class Api {
       }
     });
 
-    const json: AllCharsData = await response.json();
+    const json: T = await response.json();
 
     if (!Array.isArray(json.data)) {
       json.data = [json.data];

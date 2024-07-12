@@ -24,3 +24,7 @@ export type AllCharsData = {
     totalPages: number;
   };
 };
+
+export type OneCharData = Omit<AllCharsData, 'data'> & {
+  data: CharData;
+};

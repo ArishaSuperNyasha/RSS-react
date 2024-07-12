@@ -6,13 +6,21 @@ import {
   RouterProvider,
 } from 'react-router-dom';
 import './index.css';
-import { Page404 } from './views/index.ts';
+import { Page404, CharacterDetails } from './views';
+import { loader } from './hooks';
 
 const router = createBrowserRouter([
   {
     path: '/',
     element: <App />,
     errorElement: <Page404 />,
+    children: [
+      {
+        path: 'characters/:characterId',
+        element: <CharacterDetails />,
+        loader,
+      },
+    ],
   },
 ]);
 
