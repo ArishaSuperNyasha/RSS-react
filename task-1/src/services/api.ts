@@ -53,10 +53,10 @@ export class Api {
     idEndpoint?: number;
   }): Promise<T> {
     const { idEndpoint, params } = configs;
-    const urlEnding =
-      typeof idEndpoint === 'number'
-        ? `/${idEndpoint}`
-        : `?${params}`;
+    const hasEndpoint = typeof idEndpoint === 'number';
+    const urlEnding = hasEndpoint
+      ? `/${idEndpoint}`
+      : `?${params}`;
     const response = await fetch(
       `${this.baseUrl}${urlEnding}`,
       {
@@ -71,6 +71,10 @@ export class Api {
     });
 
     const json: T = await response.json();
+
+    if (hasEndpoint) {
+      return json;
+    }
 
     if (!Array.isArray(json.data)) {
       json.data = [json.data];
