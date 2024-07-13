@@ -10,10 +10,13 @@ export const detailsLoader = async ({
 }: {
   params: Params<'characterId'>;
 }): Promise<CharacterLoaderReturnType> => {
-  const id = params.characterId;
-  if (!id) {
-    return null;
+  const { characterId } = params;
+  const id = characterId
+    ? parseInt(characterId)
+    : undefined;
+  if (!id || isNaN(id)) {
+    throw new Error('bleh');
   }
-  const character = await Api.getCharById(parseInt(id));
+  const character = await Api.getCharById(id);
   return { character };
 };
