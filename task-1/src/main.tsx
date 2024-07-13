@@ -11,7 +11,7 @@ import { detailsLoader, resultsLoader } from './utils';
 
 const router = createBrowserRouter([
   {
-    path: '/:pageNumber',
+    path: '/:pageNumber?',
     element: <App />,
     errorElement: <Page404 />,
     loader: resultsLoader,

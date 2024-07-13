@@ -14,14 +14,16 @@ export const resultsLoader = async ({
 }: {
   params: Params<'pageNumber'>;
 }): Promise<ResultsLoaderReturnType> => {
-  const { pageNumber } = params;
   const name = TermsStorage.getLastTerm('searchTerms');
-  if (!pageNumber || !name) {
-    return null;
+  const pageNumber = parseInt(params.pageNumber ?? '1');
+
+  let promise;
+  if (name === '') {
+    promise = Api.getAllChars(pageNumber);
+  } else {
+    promise = Api.getCharsByName(name, pageNumber);
   }
-  const results = await Api.getCharsByName(
-    name,
-    parseInt(pageNumber)
-  );
+
+  const results = await promise;
   return { results };
 };

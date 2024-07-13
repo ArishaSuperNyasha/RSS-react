@@ -1,9 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import {
-  Api,
-  TermsStorage,
-  AllCharsData,
-} from '../../services';
+import { TermsStorage } from '../../services';
 import {
   SearchButton,
   SearchInput,
@@ -19,7 +15,10 @@ import {
 import './style.css';
 import { Pagination } from '../../components';
 import { ResultsLoaderReturnType } from '../../utils';
-import { useLoaderData } from 'react-router-dom';
+import {
+  useLoaderData,
+  useNavigate,
+} from 'react-router-dom';
 
 function getTerms(): string[] {
   const string = TermsStorage.getItem('searchTerms');
@@ -37,12 +36,10 @@ export const SearchPage = () => {
   const totalPages = data?.results.info.totalPages ?? 10;
   const results = data?.results;
 
+  const navigate = useNavigate();
   const [terms, setTerms] = useState<string[]>(() =>
     getTerms()
   );
-  const [searchResults, setSearchResults] = useState<
-    AllCharsData | undefined
-  >(results ?? undefined);
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
   const updateSearchTerms = useCallback(
@@ -64,21 +61,17 @@ export const SearchPage = () => {
   const sendSearchRequest = useCallback(
     (value?: string, options = { updateTerms: false }) => {
       const trimmedValue = value?.trim();
-      let promise;
       if (
-        trimmedValue === undefined ||
-        trimmedValue === ''
+        trimmedValue !== undefined &&
+        trimmedValue !== '' &&
+        options.updateTerms
       ) {
-        promise = Api.getAllChars();
-      } else {
-        if (options.updateTerms) {
-          updateSearchTerms(trimmedValue);
-        }
-        promise = Api.getCharsByName(trimmedValue);
+        updateSearchTerms(trimmedValue);
       }
-      promise.then((json) => setSearchResults(json));
+
+      navigate('/1');
     },
-    [updateSearchTerms]
+    [navigate, updateSearchTerms]
   );
 
   useEffect(() => {
@@ -101,16 +94,12 @@ export const SearchPage = () => {
         event.preventDefault();
 
         const newValue = getValue(inputRef);
-        const trimmedValue = newValue.trim();
-        if (trimmedValue !== '') {
-          updateSearchTerms(trimmedValue);
-        }
 
-        sendSearchRequest(trimmedValue, {
+        sendSearchRequest(newValue, {
           updateTerms: true,
         });
       },
-      [updateSearchTerms, sendSearchRequest]
+      [sendSearchRequest]
     );
 
   return (
@@ -130,7 +119,7 @@ export const SearchPage = () => {
         />
       </form>
       <SearchResults
-        searchResults={searchResults}
+        searchResults={results}
         className='results'
       ></SearchResults>
       <Pagination
