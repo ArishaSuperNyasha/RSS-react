@@ -1,7 +1,10 @@
 import { useLoaderData } from 'react-router-dom';
 import { CharacterLoaderReturnType } from '../../utils';
+import { useCharactersClose } from '../../hooks';
 
 export const CharacterDetails = () => {
+  const { closeCharacters } = useCharactersClose();
+
   const data = useLoaderData() as CharacterLoaderReturnType;
   if (!data) {
     return;
@@ -20,6 +23,7 @@ export const CharacterDetails = () => {
       </div>
 
       <div>
+        <button onClick={() => closeCharacters()}>x</button>
         <h1>
           {character?.name ? (
             <>{character.name}</>
