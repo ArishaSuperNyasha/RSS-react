@@ -19,6 +19,7 @@ import {
   useLoaderData,
   useNavigate,
 } from 'react-router-dom';
+import { useCharactersClose } from '../../hooks';
 
 function getTerms(): string[] {
   const string = TermsStorage.getItem('searchTerms');
@@ -41,6 +42,8 @@ export const SearchPage = () => {
     getTerms()
   );
   const [isFocus, setIsFocus] = useState<boolean>(false);
+
+  const { closeCharacters } = useCharactersClose();
 
   const updateSearchTerms = useCallback(
     function (newValue: string): void {
@@ -102,7 +105,14 @@ export const SearchPage = () => {
     );
 
   return (
-    <div className='search-page'>
+    <div
+      className='search-page'
+      onClick={(event) => {
+        if (!(event.target as HTMLElement).closest('a')) {
+          closeCharacters();
+        }
+      }}
+    >
       <h1>Disney Heroes</h1>
       <form>
         <SearchInput

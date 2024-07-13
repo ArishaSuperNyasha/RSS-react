@@ -37,10 +37,18 @@ export const Pagination = (props: PaginationProps) => {
     totalPages
   );
 
+  const prev = currentPage - 1 > 0 ? currentPage - 1 : 1;
+  const next =
+    currentPage + 1 < totalPages
+      ? currentPage + 1
+      : totalPages;
   return (
     <div className='pagination'>
       <Link
-        to={`/${currentPage - 1 > 0 ? currentPage - 1 : 1}`}
+        to={`/${prev}`}
+        onClick={() => {
+          setCurrentPage(prev);
+        }}
       >
         ⇦
       </Link>
@@ -58,7 +66,10 @@ export const Pagination = (props: PaginationProps) => {
         ))}
       </div>
       <Link
-        to={`/${currentPage + 1 < totalPages ? currentPage + 1 : totalPages}`}
+        to={`/${next}`}
+        onClick={() => {
+          setCurrentPage(next);
+        }}
       >
         ⇨
       </Link>
