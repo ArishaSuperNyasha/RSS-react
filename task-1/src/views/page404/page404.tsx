@@ -6,10 +6,13 @@ import {
 export const Page404 = () => {
   const error = useRouteError();
 
-  let message;
+  let message: string;
+  let status: string | number | undefined;
   if (isRouteErrorResponse(error)) {
-    message = error.statusText || error.status;
+    status = error.status;
+    message = error.data;
   } else if (error instanceof Error) {
+    status = error.name;
     message = error.message;
   } else {
     message = 'Unknown Error';
@@ -17,7 +20,7 @@ export const Page404 = () => {
 
   return (
     <div id='error-page'>
-      <h1>Oops!</h1>
+      <h1>{status ?? 'Oops!'}</h1>
       <p>Sorry, an unexpected error has occurred.</p>
       <p>
         <i>{message}</i>

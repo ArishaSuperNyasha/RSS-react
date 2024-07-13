@@ -1,4 +1,4 @@
-import { Params, redirect } from 'react-router-dom';
+import { Params } from 'react-router-dom';
 import {
   AllCharsData,
   Api,
@@ -14,13 +14,15 @@ const cache = new Map<string, AllCharsData>();
 export const resultsLoader = async ({
   params,
 }: {
-  params: Params<'pageNumber'>;
+  params: Params<'pageNumber' | 'characterId'>;
 }): Promise<ResultsLoaderReturnType> => {
   const name = TermsStorage.getLastTerm('searchTerms');
   const pageNumber = parseInt(params.pageNumber ?? '1');
 
   if (isNaN(pageNumber)) {
-    throw redirect('/1');
+    throw new Response('The page was not found', {
+      status: 404,
+    });
   }
 
   const mapKey = `${name}/${pageNumber}`;
@@ -38,5 +40,11 @@ export const resultsLoader = async ({
 
   const results = await promise;
   cache.set(mapKey, results);
+
+  if (results.data.length === 0) {
+    throw new Response('The page was not found', {
+      status: 404,
+    });
+  }
   return { results };
 };

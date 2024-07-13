@@ -29,8 +29,6 @@ export const TermsList = (props: TermsListProps) => {
       [props]
     );
 
-  console.log('terms');
-
   const arr =
     props.terms?.map((s) => (
       <li onMouseDown={handleClick}>{s}</li>

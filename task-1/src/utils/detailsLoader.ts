@@ -15,7 +15,9 @@ export const detailsLoader = async ({
     ? parseInt(characterId)
     : undefined;
   if (!id || isNaN(id)) {
-    throw new Error('bleh');
+    throw new Response('The page was not found', {
+      status: 404,
+    });
   }
   const character = await Api.getCharById(id);
   return { character };

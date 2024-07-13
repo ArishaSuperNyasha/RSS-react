@@ -67,9 +67,8 @@ export const SearchPage = () => {
         options.updateTerms
       ) {
         updateSearchTerms(trimmedValue);
+        navigate('/1');
       }
-
-      navigate('/1');
     },
     [navigate, updateSearchTerms]
   );

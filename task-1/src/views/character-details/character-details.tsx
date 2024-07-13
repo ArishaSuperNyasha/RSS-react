@@ -7,7 +7,6 @@ export const CharacterDetails = () => {
     return;
   }
   const character = data.character.data;
-  console.log(character);
 
   return (
     <div id='contact'>
