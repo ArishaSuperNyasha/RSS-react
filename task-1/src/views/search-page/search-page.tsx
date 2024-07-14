@@ -1,5 +1,4 @@
-import { useCallback, useEffect, useState } from 'react';
-import { TermsStorage } from '../../services';
+import { useCallback, useState } from 'react';
 import {
   SearchButton,
   SearchInput,
@@ -7,24 +6,17 @@ import {
   TermsList,
 } from './components';
 import {
-  addTermAndConvertToString,
-  getTermsFromString,
   getInputValue as getValue,
   pasteValueIntoInput as pasteValue,
 } from './utils';
 import './style.css';
 import { Pagination } from '../../components';
 import { ResultsLoaderReturnType } from '../../utils';
+import { useLoaderData } from 'react-router-dom';
 import {
-  useLoaderData,
-  useNavigate,
-} from 'react-router-dom';
-import { useCharactersClose } from '../../hooks';
-
-function getTerms(): string[] {
-  const string = TermsStorage.getItem('searchTerms');
-  return getTermsFromString(string);
-}
+  useCharactersClose,
+  useSearchTerms,
+} from '../../hooks';
 
 let inputRef: null | HTMLInputElement = null;
 
@@ -37,49 +29,10 @@ export const SearchPage = () => {
   const totalPages = data?.results.info.totalPages ?? 10;
   const results = data?.results;
 
-  const navigate = useNavigate();
-  const [terms, setTerms] = useState<string[]>(() =>
-    getTerms()
-  );
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
   const { closeCharacters } = useCharactersClose();
-
-  const updateSearchTerms = useCallback(
-    function (newValue: string): void {
-      const searchTerms = getTerms();
-      const newString = addTermAndConvertToString(
-        searchTerms,
-        newValue
-      );
-      TermsStorage.setItem('searchTerms', newString);
-
-      const terms = getTerms();
-
-      setTerms(terms);
-    },
-    [setTerms]
-  );
-
-  const sendSearchRequest = useCallback(
-    (value?: string, options = { updateTerms: false }) => {
-      const trimmedValue = value?.trim();
-      if (
-        trimmedValue !== undefined &&
-        trimmedValue !== '' &&
-        options.updateTerms
-      ) {
-        updateSearchTerms(trimmedValue);
-        navigate('/1');
-      }
-    },
-    [navigate, updateSearchTerms]
-  );
-
-  useEffect(() => {
-    const firstTerm = getTerms()[0];
-    sendSearchRequest(firstTerm);
-  }, [sendSearchRequest]);
+  const { terms, sendSearchRequest } = useSearchTerms();
 
   const onFocus: React.FormEventHandler<HTMLInputElement> =
     useCallback(
