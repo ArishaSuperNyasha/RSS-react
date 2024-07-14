@@ -2,9 +2,3 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
 }
-
-.page > *:last-child {
-  padding-top: 4rem;
-  position: sticky;
-  top: 0;
-}
