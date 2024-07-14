@@ -3,16 +3,26 @@ import './App.css';
 import {
   ErrorBoundary,
   ErrorButtonWrapper,
+  Loader,
 } from './components';
-import { Outlet } from 'react-router-dom';
+import { Outlet, useNavigation } from 'react-router-dom';
 
 const App = () => {
+  const navigation = useNavigation();
+
   return (
     <ErrorBoundary>
       <ErrorButtonWrapper>
         <SearchPage></SearchPage>
         <div id='details'>
-          <Outlet />
+          {navigation.state === 'loading' &&
+          navigation.location.pathname.includes(
+            'characters'
+          ) ? (
+            <Loader />
+          ) : (
+            <Outlet />
+          )}
         </div>
       </ErrorButtonWrapper>
     </ErrorBoundary>
