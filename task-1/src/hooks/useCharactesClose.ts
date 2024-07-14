@@ -1,6 +1,8 @@
 import { useLocation, useNavigate } from 'react-router-dom';
 
-export function useCharactersClose() {
+export function useCharactersClose(): {
+  closeCharacters: () => void;
+} {
   const params = useLocation();
   const navigate = useNavigate();
 

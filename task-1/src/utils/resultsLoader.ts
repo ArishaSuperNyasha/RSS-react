@@ -31,7 +31,7 @@ export const resultsLoader = async ({
     return { results: cacheValue };
   }
 
-  let promise;
+  let promise: Promise<AllCharsData>;
   if (name === '') {
     promise = Api.getAllChars(pageNumber);
   } else {

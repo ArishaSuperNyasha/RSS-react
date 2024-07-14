@@ -6,7 +6,15 @@ function getTerms(): string[] {
   return TermsStorage.getTermsArray('searchTerms');
 }
 
-export function useSearchTerms() {
+export function useSearchTerms(): {
+  terms: string[];
+  sendSearchRequest: (
+    value?: string,
+    options?: {
+      updateTerms: boolean;
+    }
+  ) => void;
+} {
   const [terms, setTerms] = useState<string[]>(() =>
     getTerms()
   );
