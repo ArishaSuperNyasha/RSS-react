@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
+import './style.css';
 
 interface PaginationProps {
   totalPages: number;
@@ -44,17 +45,17 @@ export const Pagination = (props: PaginationProps) => {
       : totalPages;
   return (
     <div className='pagination'>
-      <Link
+      <NavLink
         to={`/${prev}`}
         onClick={() => {
           setCurrentPage(prev);
         }}
       >
         ⇦
-      </Link>
+      </NavLink>
       <div className='numeric-btns'>
         {range.map((n) => (
-          <Link
+          <NavLink
             onClick={() => {
               setCurrentPage(n);
             }}
@@ -62,17 +63,17 @@ export const Pagination = (props: PaginationProps) => {
             to={`/${n}`}
           >
             {n}
-          </Link>
+          </NavLink>
         ))}
       </div>
-      <Link
+      <NavLink
         to={`/${next}`}
         onClick={() => {
           setCurrentPage(next);
         }}
       >
         ⇨
-      </Link>
+      </NavLink>
     </div>
   );
 };
