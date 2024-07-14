@@ -12,7 +12,7 @@ export const CharacterDetails = () => {
   const character = data.character.data;
 
   return (
-    <div id='character'>
+    <div className='character'>
       <div>
         <img
           src={

@@ -59,7 +59,7 @@ export const SearchPage = () => {
 
   return (
     <div
-      className='search-page'
+      className='search'
       onClick={(event) => {
         if (!(event.target as HTMLElement).closest('a')) {
           closeCharacters();

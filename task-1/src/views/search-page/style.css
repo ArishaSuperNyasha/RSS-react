@@ -1,16 +1,16 @@
-.search-page > form {
+.search > form {
   width: max-content;
   margin: auto;
   position: relative;
   padding-bottom: 2rem;
 }
 
-.search-page > form > input {
+.search > form > input {
   margin-right: 1rem;
   padding: 0.4rem;
 }
 
-.search-page > form > ul {
+.search > form > ul {
   margin: 0;
   margin-top: 0.5rem;
   position: absolute;
@@ -19,14 +19,14 @@
   border-radius: 0.5rem;
 }
 
-.search-page > form li {
+.search > form li {
   padding: 0.3rem 0;
   cursor: pointer;
   list-style-type: '>';
   transition: text-shadow 0.3s;
 }
 
-.search-page > form li:hover {
+.search > form li:hover {
   text-shadow:
     0 0 0.2rem currentColor,
     0 0 0.7rem var(--accent-color),

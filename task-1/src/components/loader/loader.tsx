@@ -1,3 +1,3 @@
 export const Loader = () => {
-  return <p className='loading-indicator'>Loading...</p>;
+  return <h1 className='loading-indicator'>Loading...</h1>;
 };

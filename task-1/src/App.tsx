@@ -1,5 +1,6 @@
 import { SearchPage } from './views';
 import './App.css';
+import './page.css';
 import {
   ErrorBoundary,
   ErrorButtonWrapper,
@@ -13,8 +14,8 @@ const App = () => {
   return (
     <ErrorBoundary>
       <ErrorButtonWrapper>
-        <SearchPage></SearchPage>
-        <div id='details'>
+        <div className='page'>
+          <SearchPage></SearchPage>
           {navigation.state === 'loading' &&
           navigation.location.pathname.includes(
             'characters'
