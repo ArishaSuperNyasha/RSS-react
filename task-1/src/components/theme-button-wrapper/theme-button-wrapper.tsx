@@ -11,15 +11,18 @@ export const ThemeButtonWrapper = (
 
   return (
     <div
-      className={`theme-button-wrapper ${theme ? 'dark' : 'light'}`}
+      className={`theme-button-wrapper ${theme ? 'light' : 'dark'}`}
     >
-      <button
-        onClick={() => {
+      <input
+        type='checkbox'
+        id='switch-theme'
+        onChange={() => {
           if (themeToggler) {
             themeToggler();
           }
         }}
-      ></button>
+      />
+      <label htmlFor='switch-theme'></label>
       {props.children}
     </div>
   );

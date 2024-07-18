@@ -17,6 +17,7 @@
   width: calc(100% - 40px);
   background-color: var(--interactive-color);
   border-radius: 0.5rem;
+  z-index: 2;
 }
 
 .search > form li {
