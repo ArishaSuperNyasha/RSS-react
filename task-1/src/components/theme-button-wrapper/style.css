@@ -1,0 +1,15 @@
+.theme-button-wrapper.dark {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1a2139;
+  --interactive-color: #223883;
+  --accent-color: #417ac7;
+  --hover-border: 0.05rem solid var(--accent-color);
+}
+
+.theme-button-wrapper.light {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #5171dc;
+  --interactive-color: #9cb3ff;
+  --accent-color: #0270ff;
+  --hover-border: 0.05rem solid var(--accent-color);
+}
