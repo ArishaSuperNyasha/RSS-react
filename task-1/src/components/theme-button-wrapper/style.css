@@ -45,11 +45,11 @@
   transition: 0.3s;
 }
 
-.theme-button-wrapper > input:checked + label {
+.theme-button-wrapper.light > input + label {
   background: var(--theme-toggler-bg-color);
 }
 
-.theme-button-wrapper > input:checked + label:after {
+.theme-button-wrapper.light > input + label:after {
   left: calc(100% - var(--theme-toggler-height) * 0.05);
   transform: translateX(-100%);
 }

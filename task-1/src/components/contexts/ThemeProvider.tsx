@@ -1,15 +1,28 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ChildrenProps } from 'src/components/interfaces';
 import {
   ThemeContext,
   ThemeUpdateContext,
 } from './contexts';
+import { ThemeStorage } from 'src/services';
 
 export const ThemeProvider = (props: ChildrenProps) => {
   const [isDarkTheme, setTheme] = useState(false);
 
+  useEffect(() => {
+    const storageTheme =
+      ThemeStorage.getItem('theme') === 'true';
+    setTheme(storageTheme);
+
+    return () => {
+      setTheme(isDarkTheme);
+    };
+  }, [isDarkTheme, setTheme]);
+
   function toggleTheme(): void {
-    setTheme((isDarkTheme) => !isDarkTheme);
+    const newValue = !isDarkTheme;
+    setTheme(newValue);
+    ThemeStorage.setItem('theme', newValue.toString());
   }
 
   return (
