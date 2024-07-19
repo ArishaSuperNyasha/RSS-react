@@ -1,6 +1,7 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { State, addItem, removeItem } from '.';
+import { addItem, removeItem } from '.';
 import { useEffect, useRef } from 'react';
+import { State } from '../stateInterface';
 
 interface ItemsSelectorProps {
   data: {

@@ -1,10 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-
-export interface State {
-  itemsSelector: {
-    items: { [key: number]: object };
-  };
-}
+import { State } from '../stateInterface';
 
 const initialState = {
   items: {},
