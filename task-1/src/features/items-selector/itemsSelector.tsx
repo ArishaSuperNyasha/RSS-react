@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addItem, removeItem } from '.';
 import { useEffect, useRef } from 'react';
 import { State } from '../stateInterface';
+import './style.css';
 
 interface ItemsSelectorProps {
   data: {
@@ -47,6 +48,11 @@ export const ItemsSelector = (
   });
 
   return (
-    <input ref={ref} type='checkbox' onClick={onClick} />
+    <input
+      ref={ref}
+      type='checkbox'
+      onClick={onClick}
+      className='items-selector'
+    />
   );
 };

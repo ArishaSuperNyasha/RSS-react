@@ -42,7 +42,9 @@ function getSection(
   > = (event) => {
     if (
       event.target &&
-      (event.target as HTMLElement).tagName === 'INPUT'
+      (event.target as HTMLElement).closest(
+        '.items-selector'
+      )
     ) {
       event.preventDefault();
     }
