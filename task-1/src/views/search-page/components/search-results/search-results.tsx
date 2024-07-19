@@ -4,6 +4,7 @@ import {
   AllCharsData,
 } from '../../../../services';
 import { Link } from 'react-router-dom';
+import { ItemsSelector } from 'src/features';
 
 interface SearchResultsProps {
   searchResults?: AllCharsData;
@@ -31,12 +32,26 @@ function getDescription(charData: CharData): string[] {
 }
 
 function getSection(
-  description: SectionDescription
+  description: SectionDescription,
+  data: CharData
 ): JSX.Element {
   const { name, type, text, _id } = { ...description };
+
+  const onClick: React.MouseEventHandler<
+    HTMLAnchorElement
+  > = (event) => {
+    if (
+      event.target &&
+      (event.target as HTMLElement).tagName === 'INPUT'
+    ) {
+      event.preventDefault();
+    }
+  };
+
   return (
-    <Link to={`characters/${_id}`}>
+    <Link to={`characters/${_id}`} onClick={onClick}>
       <section>
+        <ItemsSelector data={data}></ItemsSelector>
         <h3>{name}</h3>
         <div>
           <h4>{type}</h4>
@@ -55,12 +70,15 @@ export const SearchResults = (
     const cardsArr: JSX.Element[] =
       data?.map((res) => {
         const description = getDescription(res);
-        return getSection({
-          _id: res._id,
-          name: res.name,
-          type: description[0],
-          text: description[1],
-        });
+        return getSection(
+          {
+            _id: res._id,
+            name: res.name,
+            type: description[0],
+            text: description[1],
+          },
+          res
+        );
       }) ?? [];
     return cardsArr;
   }, [props]);

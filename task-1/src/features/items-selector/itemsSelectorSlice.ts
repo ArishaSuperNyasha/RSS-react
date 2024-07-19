@@ -2,12 +2,12 @@ import { createSlice } from '@reduxjs/toolkit';
 
 export interface State {
   itemsSelector: {
-    items: object[];
+    items: { [key: number]: object };
   };
 }
 
 const initialState = {
-  items: [],
+  items: {},
 };
 
 export const itemsSelectorSlice = createSlice({
@@ -15,10 +15,19 @@ export const itemsSelectorSlice = createSlice({
   initialState,
   reducers: {
     addItem: (state: State['itemsSelector'], action) => {
-      state.items.push(action.payload);
-      console.log(state.items, action);
+      const id = action.payload._id;
+      if (!id || typeof id !== 'number') return;
+
+      state.items[id] = action.payload;
+    },
+    removeItem: (state: State['itemsSelector'], action) => {
+      const id = action.payload;
+      if (!id || typeof id !== 'number') return;
+
+      delete state.items[id];
     },
   },
 });
 
-export const { addItem } = itemsSelectorSlice.actions;
+export const { addItem, removeItem } =
+  itemsSelectorSlice.actions;
