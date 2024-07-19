@@ -9,6 +9,7 @@ import {
   ThemeButtonWrapper,
 } from './components';
 import { Outlet, useNavigation } from 'react-router-dom';
+import { ItemsSelector } from './features/items-selector/itemsSelector';
 
 const App = () => {
   const navigation = useNavigation();
@@ -29,6 +30,13 @@ const App = () => {
                 <Outlet />
               )}
             </div>
+            <ItemsSelector
+              data={{
+                x: 'asaga',
+                y: 'asvanttnm',
+                z: 'ywb,i',
+              }}
+            ></ItemsSelector>
           </ErrorButtonWrapper>
         </ThemeButtonWrapper>
       </ThemeProvider>
