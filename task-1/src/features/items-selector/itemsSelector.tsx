@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
 import { State, addItem, removeItem } from '.';
+import { useEffect, useRef } from 'react';
 
 interface ItemsSelectorProps {
   data: {
@@ -10,6 +11,8 @@ interface ItemsSelectorProps {
 export const ItemsSelector = (
   props: ItemsSelectorProps
 ) => {
+  const ref = useRef() as React.RefObject<HTMLInputElement>;
+
   const items = useSelector<
     State,
     State['itemsSelector']['items']
@@ -28,18 +31,21 @@ export const ItemsSelector = (
     const checkbox = event.target as HTMLInputElement;
     if (checkbox.checked) {
       dispatch(addItem(props.data));
-      checkbox.checked = true;
     } else {
       dispatch(removeItem(props.data._id));
-      checkbox.checked = false;
     }
   };
 
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+    ref.current.checked = checkIsItemInStore(
+      props.data._id
+    );
+  });
+
   return (
-    <input
-      type='checkbox'
-      checked={checkIsItemInStore(props.data._id)}
-      onClick={onClick}
-    />
+    <input ref={ref} type='checkbox' onClick={onClick} />
   );
 };
