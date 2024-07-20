@@ -1,6 +1,6 @@
 import { useLoaderData } from 'react-router-dom';
-import { CharacterLoaderReturnType } from '../../utils';
 import { useCharactersClose } from '../../hooks';
+import { OneCharData } from 'src/services';
 import './style.css';
 
 function createLis(
@@ -24,11 +24,11 @@ function createLis(
 export const CharacterDetails = () => {
   const { closeCharacters } = useCharactersClose();
 
-  const data = useLoaderData() as CharacterLoaderReturnType;
+  const data = useLoaderData() as OneCharData;
   if (!data) {
     return;
   }
-  const character = data.character.data;
+  const character = data.data;
 
   const films = createLis(character.films, 'films: ');
   const series = createLis(character.tvShows, 'series: ');

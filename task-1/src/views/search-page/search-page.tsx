@@ -11,12 +11,12 @@ import {
 } from './utils';
 import './style.css';
 import { Pagination } from '../../components';
-import { ResultsLoaderReturnType } from '../../utils';
 import { useLoaderData } from 'react-router-dom';
 import {
   useCharactersClose,
   useSearchTerms,
 } from '../../hooks';
+import { AllCharsData } from 'src/services';
 
 let inputRef: null | HTMLInputElement = null;
 
@@ -25,9 +25,9 @@ const handleLiClick = (text: string) => {
 };
 
 export const SearchPage = () => {
-  const data = useLoaderData() as ResultsLoaderReturnType;
-  const totalPages = data?.results.info.totalPages ?? 10;
-  const results = data?.results;
+  const data = useLoaderData() as AllCharsData;
+  const totalPages = data?.info.totalPages ?? 10;
+  const results = data;
 
   const [isFocus, setIsFocus] = useState<boolean>(false);
 

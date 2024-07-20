@@ -1,21 +1,26 @@
 import { Params } from 'react-router-dom';
 import {
   AllCharsData,
-  Api,
+  GetAllCharsParams,
+  GetCharsByNameParams,
   TermsStorage,
+  disneyApi,
 } from '../services';
-
-export type ResultsLoaderReturnType = {
-  results: AllCharsData;
-} | null;
-
-const cache = new Map<string, AllCharsData>();
+import {
+  BaseQueryFn,
+  FetchArgs,
+  FetchBaseQueryMeta,
+  QueryActionCreatorResult,
+  QueryDefinition,
+} from '@reduxjs/toolkit/query';
+import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { store } from 'src/app/store';
 
 export const resultsLoader = async ({
   params,
 }: {
   params: Params<'pageNumber' | 'characterId'>;
-}): Promise<ResultsLoaderReturnType> => {
+}): Promise<AllCharsData> => {
   const name = TermsStorage.getLastTerm('searchTerms');
   const pageNumber = parseInt(params.pageNumber ?? '1');
 
@@ -25,26 +30,48 @@ export const resultsLoader = async ({
     });
   }
 
-  const mapKey = `${name}/${pageNumber}`;
-  const cacheValue = cache.get(mapKey);
-  if (cacheValue) {
-    return { results: cacheValue };
-  }
-
-  let promise: Promise<AllCharsData>;
+  let promise: QueryActionCreatorResult<
+    QueryDefinition<
+      GetCharsByNameParams | GetAllCharsParams,
+      BaseQueryFn<
+        string | FetchArgs,
+        unknown,
+        FetchBaseQueryError,
+        object,
+        FetchBaseQueryMeta
+      >,
+      never,
+      AllCharsData,
+      'disneyApi'
+    >
+  >;
   if (name === '') {
-    promise = Api.getAllChars(pageNumber);
+    promise = store.dispatch(
+      disneyApi.endpoints.getAllChars.initiate({
+        pageNumber,
+      })
+    );
   } else {
-    promise = Api.getCharsByName(name, pageNumber);
+    promise = store.dispatch(
+      disneyApi.endpoints.getCharsByName.initiate({
+        pageNumber,
+        name,
+      })
+    );
   }
 
-  const results = await promise;
-  cache.set(mapKey, results);
+  try {
+    const response = await promise.unwrap();
 
-  if (results.data.length === 0) {
+    if (response.data.length === 0) {
+      throw new Error();
+    }
+    return response;
+  } catch (e) {
     throw new Response('The page was not found', {
       status: 404,
     });
+  } finally {
+    promise.unsubscribe();
   }
-  return { results };
 };

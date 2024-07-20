@@ -1,3 +1,4 @@
+export * from './rtk-api';
 import { AllCharsData, OneCharData } from './interfaces';
 
 type AllCharsPromise = Promise<AllCharsData>;
