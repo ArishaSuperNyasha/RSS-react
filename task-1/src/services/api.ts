@@ -1,86 +1,49 @@
-export * from './rtk-api';
 import { AllCharsData, OneCharData } from './interfaces';
+import {
+  createApi,
+  fetchBaseQuery,
+} from '@reduxjs/toolkit/query/react';
 
-type AllCharsPromise = Promise<AllCharsData>;
+const pageSize = 10;
 
-type OneCharPromise = Promise<OneCharData>;
-
-export class Api {
-  private static baseUrl =
-    'https://api.disneyapi.dev/character';
-
-  private static pageSize = 10;
-
-  public static async getAllChars(
-    pageNumber = 1
-  ): AllCharsPromise {
-    const params = new URLSearchParams({
-      page: `${pageNumber}`,
-      pageSize: `${this.pageSize}`,
-    });
-
-    return await this.handleResponse<AllCharsData>({
-      params,
-    });
-  }
-
-  public static async getCharsByName(
-    name: string,
-    pageNumber = 1
-  ): AllCharsPromise {
-    const params = new URLSearchParams({
-      name,
-      page: `${pageNumber}`,
-      pageSize: `${this.pageSize}`,
-    });
-
-    return await this.handleResponse<AllCharsData>({
-      params,
-    });
-  }
-
-  public static async getCharById(
-    idEndpoint: number
-  ): OneCharPromise {
-    return await this.handleResponse<OneCharData>({
-      idEndpoint,
-    });
-  }
-
-  private static async handleResponse<
-    T extends AllCharsData | OneCharData,
-  >(configs: {
-    params?: URLSearchParams;
-    idEndpoint?: number;
-  }): Promise<T> {
-    const { idEndpoint, params } = configs;
-    const hasEndpoint = typeof idEndpoint === 'number';
-    const urlEnding = hasEndpoint
-      ? `/${idEndpoint}`
-      : `?${params}`;
-    const response = await fetch(
-      `${this.baseUrl}${urlEnding}`,
-      {
-        method: 'GET',
-      }
-    ).then((res) => {
-      if (res.ok) {
-        return res;
-      } else {
-        throw new Error(`${res.status}: ${res.statusText}`);
-      }
-    });
-
-    const json: T = await response.json();
-
-    if (hasEndpoint) {
-      return json;
-    }
-
-    if (!Array.isArray(json.data)) {
-      json.data = [json.data];
-    }
-
-    return json;
-  }
+export interface GetAllCharsParams {
+  pageNumber: number;
 }
+
+export interface GetCharsByNameParams {
+  name: string;
+  pageNumber: number;
+}
+
+export interface GetCharByIdParams {
+  idEndpoint: number;
+}
+
+export const disneyApi = createApi({
+  reducerPath: 'disneyApi',
+  baseQuery: fetchBaseQuery({
+    baseUrl: 'https://api.disneyapi.dev',
+  }),
+  endpoints: (build) => ({
+    getAllChars: build.query<
+      AllCharsData,
+      GetAllCharsParams
+    >({
+      query: ({ pageNumber }) =>
+        `/character?page=${pageNumber}&pageSize=${pageSize}`,
+    }),
+    getCharsByName: build.query<
+      AllCharsData,
+      GetCharsByNameParams
+    >({
+      query: ({ name, pageNumber }) =>
+        `/character?name=${name}&page=${pageNumber}&pageSize=${pageSize}`,
+    }),
+    getCharById: build.query<
+      OneCharData,
+      GetCharByIdParams
+    >({
+      query: ({ idEndpoint }) => `/character/${idEndpoint}`,
+    }),
+  }),
+});
