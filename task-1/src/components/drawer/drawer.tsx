@@ -49,17 +49,19 @@ export const Drawer = () => {
       >
         &gt;
       </button>
-      <p>
-        {itemsNumber} item
-        {itemsNumber < 2 ? ' is' : 's are'} selected
-      </p>
-      <button onClick={unselectAll}>Unselect all</button>
-      <a
-        href={createObjectURL(selectedItems)}
-        download={`${itemsNumber}_${endpoint}.csv`}
-      >
-        <button>Download</button>
-      </a>
+      <div>
+        <h4>
+          {itemsNumber} item
+          {itemsNumber < 2 ? ' is' : 's are'} selected
+        </h4>
+        <button onClick={unselectAll}>Unselect all</button>
+        <a
+          href={createObjectURL(selectedItems)}
+          download={`${itemsNumber}_${endpoint}.csv`}
+        >
+          <button>Download</button>
+        </a>
+      </div>
     </div>
   );
 };

@@ -1,8 +1,7 @@
 .drawer {
   position: fixed;
   bottom: 0;
-  right: 15%;
-  background-color: blueviolet;
+  right: 8%;
 }
 
 .drawer,
@@ -11,11 +10,20 @@
 }
 
 :is(.drawer.closed, .drawer.forced) {
-  transform: translateY(100px);
+  transform: translateY(calc(100% - 3rem + 0.2rem));
 }
 
 .drawer.opened:not(.forced) {
   transform: translateY(0px);
+}
+
+.drawer > button:first-child {
+  font-weight: bold;
+  padding-bottom: 0.8rem;
+  padding-left: 1rem;
+  padding-right: 1rem;
+  position: relative;
+  top: 0.1rem;
 }
 
 .drawer.opened:not(.forced) > button:first-child {
@@ -29,4 +37,14 @@
 .drawer > button:first-child:disabled {
   pointer-events: none;
   filter: brightness(0.6);
+}
+
+.drawer > div {
+  padding: 1rem;
+  background-color: var(--accent-color);
+  border-radius: 0.2rem;
+}
+
+.drawer > div > :last-child {
+  margin-left: 0.5rem;
 }
