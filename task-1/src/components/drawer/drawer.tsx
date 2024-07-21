@@ -1,11 +1,12 @@
-import { useSelector } from 'react-redux';
-import { State } from 'src/features';
+import { useDispatch, useSelector } from 'react-redux';
+import { State, removeAll } from 'src/features';
 import './style.css';
 import { useCallback, useRef } from 'react';
 
 export const Drawer = () => {
   const ref = useRef<HTMLDivElement>(null);
 
+  const dispatch = useDispatch();
   const selectedItems = useSelector<
     State,
     State['itemsSelector']['items']
@@ -22,6 +23,10 @@ export const Drawer = () => {
     }
   }, [ref, hasItems]);
 
+  const unselectAll = useCallback(() => {
+    dispatch(removeAll());
+  }, [dispatch]);
+
   return (
     <div
       className={`drawer ${hasItems ? 'opened' : 'closed'}`}
@@ -37,7 +42,7 @@ export const Drawer = () => {
         {itemsNumber} item
         {itemsNumber < 2 ? ' is' : 's are'} selected
       </p>
-      <button>Unselect all</button>
+      <button onClick={unselectAll}>Unselect all</button>
       <button>Download</button>
     </div>
   );

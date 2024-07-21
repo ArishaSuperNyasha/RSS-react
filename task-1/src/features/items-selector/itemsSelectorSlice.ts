@@ -21,8 +21,11 @@ export const itemsSelectorSlice = createSlice({
 
       delete state.items[id];
     },
+    removeAll: (state: State['itemsSelector']) => {
+      state.items = {};
+    },
   },
 });
 
-export const { addItem, removeItem } =
+export const { addItem, removeItem, removeAll } =
   itemsSelectorSlice.actions;
