@@ -2,6 +2,15 @@ import { useDispatch, useSelector } from 'react-redux';
 import { State, removeAll } from 'src/features';
 import './style.css';
 import { useCallback, useRef } from 'react';
+import { TermsStorage } from 'src/services';
+
+const createObjectURL = (data: object): string => {
+  return URL.createObjectURL(
+    new Blob([JSON.stringify(data)], {
+      type: 'text/csv;charset=utf-8',
+    })
+  );
+};
 
 export const Drawer = () => {
   const ref = useRef<HTMLDivElement>(null);
@@ -27,6 +36,8 @@ export const Drawer = () => {
     dispatch(removeAll());
   }, [dispatch]);
 
+  const endpoint = TermsStorage.getLastTerm('searchTerms');
+
   return (
     <div
       className={`drawer ${hasItems ? 'opened' : 'closed'}`}
@@ -43,7 +54,12 @@ export const Drawer = () => {
         {itemsNumber < 2 ? ' is' : 's are'} selected
       </p>
       <button onClick={unselectAll}>Unselect all</button>
-      <button>Download</button>
+      <a
+        href={createObjectURL(selectedItems)}
+        download={`${itemsNumber}_${endpoint}.csv`}
+      >
+        <button>Download</button>
+      </a>
     </div>
   );
 };
