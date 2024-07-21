@@ -10,7 +10,7 @@ import {
   pasteValueIntoInput as pasteValue,
 } from './utils';
 import './style.css';
-import { Pagination } from '../../components';
+import { Drawer, Pagination } from '../../components';
 import { useLoaderData } from 'react-router-dom';
 import {
   useCharactersClose,
@@ -88,6 +88,7 @@ export const SearchPage = () => {
         buttonsCount={5}
         totalPages={totalPages ?? 10}
       />
+      <Drawer></Drawer>
     </div>
   );
 };

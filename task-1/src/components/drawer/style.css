@@ -1,0 +1,32 @@
+.drawer {
+  position: fixed;
+  bottom: 0;
+  right: 15%;
+  background-color: blueviolet;
+}
+
+.drawer,
+.drawer > * {
+  transition: transform 0.5s;
+}
+
+:is(.drawer.closed, .drawer.forced) {
+  transform: translateY(100px);
+}
+
+.drawer.opened:not(.forced) {
+  transform: translateY(0px);
+}
+
+.drawer.opened:not(.forced) > button:first-child {
+  transform: rotate(90deg);
+}
+
+:is(.drawer.closed, .drawer.forced) > button:first-child {
+  transform: rotate(-90deg);
+}
+
+.drawer > button:first-child:disabled {
+  pointer-events: none;
+  filter: brightness(0.6);
+}
