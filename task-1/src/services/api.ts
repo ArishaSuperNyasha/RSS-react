@@ -47,3 +47,9 @@ export const disneyApi = createApi({
     }),
   }),
 });
+
+export const {
+  useGetAllCharsQuery,
+  useGetCharsByNameQuery,
+  useGetCharByIdQuery,
+} = disneyApi;
