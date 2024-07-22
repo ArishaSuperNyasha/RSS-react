@@ -3,7 +3,7 @@ import { setupListeners } from '@reduxjs/toolkit/query';
 import {
   itemsSelectorSlice,
   pageItemsSlice,
-} from 'src/features';
+} from 'src/slices';
 import { disneyApi } from 'src/services';
 
 export const store = configureStore({

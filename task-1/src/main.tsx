@@ -7,7 +7,10 @@ import {
 } from 'react-router-dom';
 import './index.css';
 import { Page404, CharacterDetails } from './views';
-import { detailsLoader, resultsLoader } from './utils';
+import {
+  detailsLoader,
+  resultsLoader,
+} from './loaders/index.ts';
 import { Provider } from 'react-redux';
 import { store } from './app/store.ts';
 

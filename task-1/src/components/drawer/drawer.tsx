@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { State, removeAll } from 'src/features';
+import { State, removeAll } from 'src/slices';
 import './style.css';
 import { useCallback, useRef } from 'react';
 import { TermsStorage } from 'src/services';

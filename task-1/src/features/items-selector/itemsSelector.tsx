@@ -1,7 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { addItem, removeItem } from '.';
 import { useEffect, useRef } from 'react';
-import { State } from '../stateInterface';
+import { State, addItem, removeItem } from '../../slices';
 import './style.css';
 
 interface ItemsSelectorProps {

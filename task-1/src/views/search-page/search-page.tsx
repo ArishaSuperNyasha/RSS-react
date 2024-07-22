@@ -1,4 +1,6 @@
 import { useCallback, useState } from 'react';
+import { useLoaderData } from 'react-router-dom';
+import { useDispatch } from 'react-redux';
 import {
   SearchButton,
   SearchInput,
@@ -11,14 +13,12 @@ import {
 } from './utils';
 import './style.css';
 import { Drawer, Pagination } from '../../components';
-import { useLoaderData } from 'react-router-dom';
 import {
   useCharactersClose,
   useSearchTerms,
 } from '../../hooks';
 import { AllCharsData } from 'src/services';
-import { addItems } from 'src/features';
-import { useDispatch } from 'react-redux';
+import { addItems } from 'src/slices';
 
 let inputRef: null | HTMLInputElement = null;
 

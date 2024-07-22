@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { State } from './stateInterface';
+import { State } from './state-interface';
 
 const initialState = {
   items: [],
