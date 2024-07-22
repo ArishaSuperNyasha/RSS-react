@@ -1,4 +1,9 @@
-import { useCallback, useState } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { useLoaderData } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import {
@@ -28,11 +33,17 @@ const handleLiClick = (text: string) => {
 
 export const SearchPage = () => {
   const data = useLoaderData() as AllCharsData;
-  const totalPages = data?.info.totalPages ?? 10;
-  const results = data;
+  const totalPages = useMemo(
+    () => data?.info.totalPages ?? 10,
+    [data]
+  );
+  const results = useMemo(() => data, [data]);
 
   const dispatch = useDispatch();
-  dispatch(addItems(data.data));
+
+  useEffect(() => {
+    dispatch(addItems(results.data));
+  }, [dispatch, results]);
 
   const [isFocus, setIsFocus] = useState<boolean>(false);
 

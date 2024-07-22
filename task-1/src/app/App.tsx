@@ -1,4 +1,5 @@
-import { SearchPage } from './views';
+import { Outlet, useNavigation } from 'react-router-dom';
+import { SearchPage } from '../views';
 import './App.css';
 import './page.css';
 import {
@@ -7,10 +8,9 @@ import {
   Loader,
   ThemeProvider,
   ThemeButtonWrapper,
-} from './components';
-import { Outlet, useNavigation } from 'react-router-dom';
+} from '../components';
 
-const App = () => {
+export const App = () => {
   const navigation = useNavigation();
 
   return (
@@ -35,5 +35,3 @@ const App = () => {
     </ErrorBoundary>
   );
 };
-
-export default App;

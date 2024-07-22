@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import App from './App.tsx';
 import {
   createBrowserRouter,
   RouterProvider,
@@ -12,7 +11,7 @@ import {
   resultsLoader,
 } from './loaders/index.ts';
 import { Provider } from 'react-redux';
-import { store } from './app/store.ts';
+import { store, App } from './app';
 
 const router = createBrowserRouter([
   {
