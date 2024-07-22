@@ -17,6 +17,8 @@ import {
   useSearchTerms,
 } from '../../hooks';
 import { AllCharsData } from 'src/services';
+import { addItems } from 'src/features';
+import { useDispatch } from 'react-redux';
 
 let inputRef: null | HTMLInputElement = null;
 
@@ -28,6 +30,9 @@ export const SearchPage = () => {
   const data = useLoaderData() as AllCharsData;
   const totalPages = data?.info.totalPages ?? 10;
   const results = data;
+
+  const dispatch = useDispatch();
+  dispatch(addItems(data.data));
 
   const [isFocus, setIsFocus] = useState<boolean>(false);
 
