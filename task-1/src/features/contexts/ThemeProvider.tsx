@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { ChildrenProps } from 'src/components/interfaces';
+import { ChildrenProps } from 'src/features';
 import {
   ThemeContext,
   ThemeUpdateContext,

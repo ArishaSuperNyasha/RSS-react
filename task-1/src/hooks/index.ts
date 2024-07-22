@@ -1,2 +1,2 @@
-export * from './useCharactesClose';
-export * from './useSearchQuery';
+export * from './use-charactes-close';
+export * from './use-search-query';

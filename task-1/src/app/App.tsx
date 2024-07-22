@@ -8,7 +8,7 @@ import {
   Loader,
   ThemeProvider,
   ThemeButtonWrapper,
-} from '../components';
+} from '../features';
 
 export const App = () => {
   const navigation = useNavigation();

@@ -1,1 +1,1 @@
-export * from './itemsSelector';
+export * from './items-selector';

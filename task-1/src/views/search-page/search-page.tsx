@@ -17,7 +17,7 @@ import {
   pasteValueIntoInput as pasteValue,
 } from './utils';
 import './style.css';
-import { Drawer, Pagination } from '../../components';
+import { Drawer, Pagination } from 'src/features';
 import {
   useCharactersClose,
   useSearchTerms,
