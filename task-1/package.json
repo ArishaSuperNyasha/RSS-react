@@ -10,7 +10,7 @@
     "format:fix": "npx prettier --write ./src",
     "preview": "vite preview",
     "prepare": "cd .. && husky husky/.husky",
-    "test": "vitest"
+    "test": "vitest --coverage"
   },
   "lint-staged": {
     "*.{ts,tsx,js,scss,less,json}": "npm run lint"
@@ -19,15 +19,19 @@
     "@babel/plugin-transform-private-methods": "^7.24.7",
     "@babel/preset-env": "^7.24.8",
     "@reduxjs/toolkit": "https://pkg.csb.dev/reduxjs/redux-toolkit/commit/beb818cb/@reduxjs/toolkit",
-    "@testing-library/jest-dom": "^6.4.6",
+    "@testing-library/jest-dom": "^6.4.7",
     "@testing-library/react": "^16.0.0",
+    "@testing-library/user-event": "^14.5.2",
     "@types/jest": "^29.5.12",
+    "@types/jsdom": "^21.1.7",
     "@types/react": "^18.3.3",
     "@types/react-dom": "^18.3.0",
     "@types/react-router-dom": "^5.3.3",
     "@typescript-eslint/eslint-plugin": "^5.59.0",
     "@vitejs/plugin-react": "^4.3.1",
+    "@vitest/coverage-v8": "^2.0.4",
     "babel-jest": "^29.7.0",
+    "c8": "^10.1.2",
     "eslint": "^8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-jsx-a11y": "^6.9.0",

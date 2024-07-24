@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "declaration": false,
+    "types": ["@testing-library/jest-dom"],
     "composite": true,
     "tsBuildInfoFile": "./node_modules/.tmp/tsconfig.node.tsbuildinfo",
     "skipLibCheck": true,

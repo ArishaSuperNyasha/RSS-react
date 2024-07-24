@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom';
 import { ItemsSelector } from 'src/features';
 import { CharData } from 'src/services';
 
-interface ResultCardProps {
+export interface ResultCardProps {
   name: string;
   type: string;
   text: string;
