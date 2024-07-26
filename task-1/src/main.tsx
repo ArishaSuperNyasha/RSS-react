@@ -1,34 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
-import {
-  createBrowserRouter,
-  RouterProvider,
-} from 'react-router-dom';
+import { RouterProvider } from 'react-router-dom';
 import './index.css';
-import { Page404, CharacterDetails } from './views';
-import {
-  detailsLoader,
-  resultsLoader,
-} from './loaders/index.ts';
 import { Provider } from 'react-redux';
-import { store, App } from './app';
-
-const router = createBrowserRouter([
-  {
-    path: '/:pageNumber?',
-    element: <App />,
-    errorElement: <Page404 />,
-    loader: resultsLoader,
-    children: [
-      {
-        path: 'characters/:characterId',
-        element: <CharacterDetails />,
-        loader: detailsLoader,
-        errorElement: <Page404 />,
-      },
-    ],
-  },
-]);
+import { store } from './app';
+import { router } from './router';
 
 ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

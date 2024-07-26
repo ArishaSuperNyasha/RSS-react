@@ -5,7 +5,7 @@ import {
 } from '../../../../services';
 import { ResultCard } from '..';
 
-interface SearchResultsProps {
+export interface SearchResultsProps {
   searchResults?: AllCharsData;
   className?: string;
 }

@@ -1,6 +1,6 @@
 import React, { useCallback, useRef } from 'react';
 
-interface TermsListProps {
+export interface TermsListProps {
   className?: string;
   terms?: string[];
   callback?: (text: string) => void;

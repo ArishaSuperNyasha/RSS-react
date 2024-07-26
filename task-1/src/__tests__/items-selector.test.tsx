@@ -9,7 +9,7 @@ vi.mock('react-redux', () => ({
       name: 'Jack',
     },
   }),
-  useDispatch: () => 1,
+  useDispatch: () => (some: unknown) => some,
 }));
 
 describe('ItemsSelector test', () => {
@@ -26,5 +26,14 @@ describe('ItemsSelector test', () => {
     );
     const input = container.querySelector('input');
     expect(input?.checked).toBe(true);
+  });
+
+  it('Unchecked on click', () => {
+    const { container } = render(
+      <ItemsSelector data={{ _id: 1 }}></ItemsSelector>
+    );
+    const input = container.querySelector('input');
+    input?.click();
+    expect(input?.checked).toBe(false);
   });
 });

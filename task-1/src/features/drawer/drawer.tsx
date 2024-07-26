@@ -3,14 +3,7 @@ import { State, removeAll } from 'src/slices';
 import './style.css';
 import { useCallback, useRef } from 'react';
 import { TermsStorage } from 'src/services';
-
-const createObjectURL = (data: object): string => {
-  return URL.createObjectURL(
-    new Blob([JSON.stringify(data)], {
-      type: 'text/csv;charset=utf-8',
-    })
-  );
-};
+import { createObjectURL } from './createObjectUrl';
 
 export const Drawer = () => {
   const ref = useRef<HTMLDivElement>(null);
