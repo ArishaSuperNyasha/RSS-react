@@ -3,7 +3,7 @@ import { Page404, CharacterDetails } from './views';
 import { detailsLoader, resultsLoader } from './loaders';
 import { App } from './app';
 
-export const router = createBrowserRouter([
+export const routerConfig = [
   {
     path: '/:pageNumber?',
     element: <App />,
@@ -18,4 +18,6 @@ export const router = createBrowserRouter([
       },
     ],
   },
-]);
+];
+
+export const router = createBrowserRouter(routerConfig);
