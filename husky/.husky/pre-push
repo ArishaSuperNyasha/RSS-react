@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname -- "$0")/husky.sh"
+
+cd task-1
+npx vitest --coverage --coverage.lines=80 --run
