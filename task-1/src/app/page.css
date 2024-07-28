@@ -1,0 +1,4 @@
+.page:has(> :is(.character, .loading-indicator)) {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}

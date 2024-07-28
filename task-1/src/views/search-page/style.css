@@ -1,0 +1,66 @@
+.search > form {
+  width: max-content;
+  margin: auto;
+  position: relative;
+  padding-bottom: 2rem;
+}
+
+.search > form > input {
+  margin-right: 1rem;
+  padding: 0.4rem;
+}
+
+.search > form > ul {
+  margin: 0;
+  margin-top: 0.5rem;
+  position: absolute;
+  width: calc(100% - 40px);
+  background-color: var(--interactive-color);
+  border-radius: 0.5rem;
+  z-index: 2;
+}
+
+.search > form li {
+  padding: 0.3rem 0;
+  cursor: pointer;
+  list-style-type: '>';
+  transition: text-shadow 0.3s;
+}
+
+.search > form li:hover {
+  text-shadow:
+    0 0 0.2rem currentColor,
+    0 0 0.7rem var(--accent-color),
+    0 0 0.5rem var(--accent-color);
+}
+
+.results {
+  max-width: 900px;
+  margin: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.results > a > section {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  border: var(--hover-border);
+  border-color: var(--interactive-color);
+  box-sizing: border-box;
+  padding: 0 1.5rem;
+  border-radius: 0.5rem;
+  position: relative;
+}
+
+.results > a > section > div {
+  display: grid;
+  grid-template-columns: 3fr 7fr;
+  align-items: baseline;
+}
+
+.results > a > section > div *:last-child {
+  padding-left: 1rem;
+  border-left: var(--hover-border);
+}
