@@ -1,0 +1,33 @@
+.pagination {
+  padding-top: 1rem;
+}
+
+.pagination .numeric-btns,
+.pagination,
+.pagination a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.8rem;
+}
+
+.pagination a {
+  border: var(--hover-border);
+  border-color: transparent;
+  transition: border-color 0.25s;
+  color: white;
+  background-color: var(--interactive-color);
+  width: 1.8rem;
+  height: 1.8rem;
+  border-radius: 0.5rem;
+}
+
+.pagination a.active {
+  pointer-events: none;
+  filter: brightness(0.6);
+}
+
+.pagination a:hover {
+  color: white;
+  border-color: var(--accent-color);
+}

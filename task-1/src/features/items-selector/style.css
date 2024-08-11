@@ -1,0 +1,21 @@
+.items-selector {
+  align-self: flex-end;
+  position: absolute;
+  top: 1rem;
+  appearance: inherit;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 0.2rem;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.items-selector:hover {
+  filter: brightness(1.5);
+}
+
+.items-selector:checked {
+  background-image: url('../../assets/for-checkbox.png');
+  background-size: cover;
+  background-color: var(--accent-color);
+}

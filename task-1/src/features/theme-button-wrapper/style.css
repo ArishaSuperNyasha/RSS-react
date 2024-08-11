@@ -1,0 +1,59 @@
+:root:has(.theme-button-wrapper.light) {
+  color: rgba(0, 0, 0, 0.87);
+  background-color: #a6c7ff;
+  --interactive-color: #3d9bdb;
+  --accent-color: #3d68cc;
+  --theme-toggler-bg-color: #d6ca24;
+}
+
+:root:has(.theme-button-wrapper.dark) {
+  color: rgba(255, 255, 255, 0.87);
+  background-color: #1a2139;
+  --interactive-color: #223883;
+  --accent-color: #417ac7;
+  --theme-toggler-bg-color: #1b00ff;
+}
+
+:root {
+  --theme-toggler-height: 2.5rem;
+}
+
+.theme-button-wrapper > input {
+  position: absolute;
+  visibility: hidden;
+}
+
+.theme-button-wrapper > label {
+  cursor: pointer;
+  width: calc(var(--theme-toggler-height) * 2);
+  height: var(--theme-toggler-height);
+  background: var(--theme-toggler-bg-color);
+  display: block;
+  border-radius: var(--theme-toggler-height);
+  position: relative;
+}
+
+.theme-button-wrapper > label:after {
+  content: '';
+  position: absolute;
+  top: calc(var(--theme-toggler-height) * 0.05);
+  left: calc(var(--theme-toggler-height) * 0.05);
+  width: calc(var(--theme-toggler-height) * 0.9);
+  height: calc(var(--theme-toggler-height) * 0.9);
+  background: #fff;
+  border-radius: calc(var(--theme-toggler-height) * 0.9);
+  transition: 0.3s;
+}
+
+.theme-button-wrapper.light > input + label {
+  background: var(--theme-toggler-bg-color);
+}
+
+.theme-button-wrapper.light > input + label:after {
+  left: calc(100% - var(--theme-toggler-height) * 0.05);
+  transform: translateX(-100%);
+}
+
+.theme-button-wrapper > label:active:after {
+  width: calc(var(--theme-toggler-height) * 1.3);
+}
