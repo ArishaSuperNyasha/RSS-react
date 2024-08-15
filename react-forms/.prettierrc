@@ -4,11 +4,11 @@
   "arrowParens": "always",
   "tabWidth": 2,
   "useTabs": false,
-  "printWidth": 100,
+  "printWidth": 80,
   "proseWrap": "always",
-  "bracketSpacing": true,
+  "bracketSameLine": false,
   "trailingComma": "es5",
   "semi": true,
-  "jsxSingleQuote": true,
+  "jsxSingleQuote": false,
   "endOfLine": "lf"
 }
