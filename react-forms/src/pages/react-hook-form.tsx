@@ -9,9 +9,9 @@ const onSubmit = (data: object) => {
 export function ReactHookForm() {
   const {
     register,
-    formState: { errors, isValid },
+    formState: { errors, isValid, touchedFields },
     handleSubmit,
-  } = useForm({ mode: 'onBlur', resolver: yupResolver(formSchema) });
+  } = useForm({ mode: 'all', resolver: yupResolver(formSchema) });
 
   return (
     <div className="react-hook-form">
@@ -40,6 +40,24 @@ export function ReactHookForm() {
         </label>
         <div className="error-message">
           <p>{errors.email?.message}</p>
+        </div>
+
+        <label>
+          Password
+          <input type="password" {...register('password')} />
+        </label>
+        <div className="error-message">
+          <p>
+            {errors.password?.message || (touchedFields.password && 'hard')}
+          </p>
+        </div>
+
+        <label>
+          Confirm password
+          <input type="password" {...register('confirmPassword')} />
+        </label>
+        <div className="error-message">
+          <p>{errors.confirmPassword?.message}</p>
         </div>
 
         <button type="submit" disabled={!isValid}>
