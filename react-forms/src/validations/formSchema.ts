@@ -22,4 +22,5 @@ export const formSchema = yup.object().shape({
     .string()
     .required()
     .oneOf([yup.ref('password')], 'Passwords must match'),
+  gender: yup.string(),
 });

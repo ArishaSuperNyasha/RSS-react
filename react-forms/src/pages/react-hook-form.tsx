@@ -60,6 +60,28 @@ export function ReactHookForm() {
           <p>{errors.confirmPassword?.message}</p>
         </div>
 
+        <fieldset>
+          <label>
+            <input
+              {...register('gender')}
+              type="radio"
+              value="male"
+              name="gender"
+              defaultChecked
+            />
+            Male
+          </label>
+          <label>
+            <input
+              {...register('gender')}
+              type="radio"
+              value="female"
+              name="gender"
+            />
+            Female
+          </label>
+        </fieldset>
+
         <button type="submit" disabled={!isValid}>
           Submit
         </button>
