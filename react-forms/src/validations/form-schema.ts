@@ -19,31 +19,34 @@ function getExtension(file: ImageFile): string {
 export const formSchema = yup.object().shape({
   name: yup
     .string()
-    .required()
-    .matches(/^\p{Lu}/u, 'Should start from an uppercase letter'),
-  age: yup.number().required().min(1, 'No negative numbers is allowed'),
-  email: yup.string().required().email('Should contain actual email'),
+    .required('name: Name is a required field')
+    .matches(/^\p{Lu}/u, 'name: Should start from an uppercase letter'),
+  age: yup.number().required().min(1, 'age: No negative numbers is allowed'),
+  email: yup
+    .string()
+    .required('email: Email is a required field')
+    .email('email: Should contain actual email'),
   password: yup
     .string()
-    .required()
+    .required('password: Password is a required field')
     .matches(
       /(((?=.*\p{Lu})(?=.*\p{Ll})(?=.*\d))|((?=.*[@!#№$%^&*+=?~|\\/])(?=.*\p{Ll})(?=.*\d))|((?=.*[@!#№$%^&*+=?~|\\/])(?=.*\p{Lu})(?=.*\d))|((?=.*[@!#№$%^&*+=?~|\\/])(?=.*\p{Lu})(?=.*\p{Ll})))/u,
-      'weak'
+      'password: weak'
     )
     .matches(
       /((?=.*\p{Lu})(?=.*\p{Ll})(?=.*\d))(?=.*[@!#№$%^&*+=?~|\\/])/u,
-      'medium'
+      'password: medium'
     ),
   confirmPassword: yup
     .string()
-    .required()
-    .oneOf([yup.ref('password')], 'Passwords must match'),
+    .required('confirmPassword: Confirm password is a required field')
+    .oneOf([yup.ref('password')], 'confirmPassword: Passwords must match'),
   gender: yup.string(),
   userpic: yup
     .mixed()
     .required()
     .test({
-      message: 'Please provide a supported file type (png or jpeg)',
+      message: 'userpic: Please provide a supported file type (png or jpeg)',
       test: (arr) => {
         const files = arr as ImageFile[];
         if (!files.length) return false;
@@ -54,7 +57,7 @@ export const formSchema = yup.object().shape({
       },
     })
     .test({
-      message: `File too big, can't exceed ${MAX_FILE_SIZE}b`,
+      message: `userpic: File too big, can't exceed ${MAX_FILE_SIZE}b`,
       test: (arr) => {
         const file = (arr as ImageFile[])[0];
         if (!file) return false;
@@ -64,9 +67,9 @@ export const formSchema = yup.object().shape({
     }),
   country: yup
     .string()
-    .required()
+    .required('country: country is a required field')
     .test({
-      message: 'Please, choose value from autocomplete',
+      message: 'country: Please, choose value from autocomplete',
       test: (value) => {
         return countryList.includes(value);
       },
@@ -75,7 +78,8 @@ export const formSchema = yup.object().shape({
     .boolean()
     .required()
     .test({
-      message: 'You must accept the terms of the agreement',
+      message:
+        'termsConditionsAgreement: You must accept the terms of the agreement',
       test: (value) => {
         return value;
       },

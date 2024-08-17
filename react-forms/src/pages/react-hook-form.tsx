@@ -3,10 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useSelector } from 'react-redux';
 import { formSchema } from '../validations';
 import { RootState } from '../global-state';
-
-const onSubmit = (data: object) => {
-  alert(JSON.stringify(data));
-};
+import { removeNameFromErrorMess, sendFormData } from '../utils';
 
 export function ReactHookForm() {
   const {
@@ -21,13 +18,13 @@ export function ReactHookForm() {
     <div className="react-hook-form">
       <h1>React Hook Form</h1>
 
-      <form onSubmit={handleSubmit(onSubmit)}>
+      <form onSubmit={handleSubmit(sendFormData)}>
         <label>
           Name
           <input type="text" {...register('name')} />
         </label>
         <div className="error-message">
-          <p>{errors.name?.message}</p>
+          <p>{removeNameFromErrorMess(errors.name?.message)}</p>
         </div>
 
         <label>
@@ -35,7 +32,7 @@ export function ReactHookForm() {
           <input type="number" {...register('age')} />
         </label>
         <div className="error-message">
-          <p>{errors.age?.message}</p>
+          <p>{removeNameFromErrorMess(errors.age?.message)}</p>
         </div>
 
         <label>
@@ -43,7 +40,7 @@ export function ReactHookForm() {
           <input type="text" {...register('email')} />
         </label>
         <div className="error-message">
-          <p>{errors.email?.message}</p>
+          <p>{removeNameFromErrorMess(errors.email?.message)}</p>
         </div>
 
         <label>
@@ -52,7 +49,8 @@ export function ReactHookForm() {
         </label>
         <div className="error-message">
           <p>
-            {errors.password?.message || (touchedFields.password && 'hard')}
+            {removeNameFromErrorMess(errors.password?.message) ||
+              (touchedFields.password && 'hard')}
           </p>
         </div>
 
@@ -61,7 +59,7 @@ export function ReactHookForm() {
           <input type="password" {...register('confirmPassword')} />
         </label>
         <div className="error-message">
-          <p>{errors.confirmPassword?.message}</p>
+          <p>{removeNameFromErrorMess(errors.confirmPassword?.message)}</p>
         </div>
 
         <fieldset>
@@ -91,7 +89,7 @@ export function ReactHookForm() {
           <input type="file" {...register('userpic')} accept=".png,.jpeg" />
         </label>
         <div className="error-message">
-          <p>{errors.userpic?.message}</p>
+          <p>{removeNameFromErrorMess(errors.userpic?.message)}</p>
         </div>
 
         <label>
@@ -110,7 +108,7 @@ export function ReactHookForm() {
           </datalist>
         </label>
         <div className="error-message">
-          <p>{errors.country?.message}</p>
+          <p>{removeNameFromErrorMess(errors.country?.message)}</p>
         </div>
 
         <label>
@@ -118,7 +116,9 @@ export function ReactHookForm() {
           accept the terms of the personal data processing agreement
         </label>
         <div className="error-message">
-          <p>{errors.termsConditionsAgreement?.message}</p>
+          <p>
+            {removeNameFromErrorMess(errors.termsConditionsAgreement?.message)}
+          </p>
         </div>
 
         <button type="submit" disabled={!isValid}>
