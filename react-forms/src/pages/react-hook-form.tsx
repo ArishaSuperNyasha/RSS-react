@@ -1,6 +1,8 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
+import { useSelector } from 'react-redux';
 import { formSchema } from '../validations';
+import { RootState } from '../global-state';
 
 const onSubmit = (data: object) => {
   alert(JSON.stringify(data));
@@ -12,6 +14,8 @@ export function ReactHookForm() {
     formState: { errors, isValid, touchedFields },
     handleSubmit,
   } = useForm({ mode: 'all', resolver: yupResolver(formSchema) });
+
+  const countries = useSelector((state: RootState) => state.country.value);
 
   return (
     <div className="react-hook-form">
@@ -88,6 +92,25 @@ export function ReactHookForm() {
         </label>
         <div className="error-message">
           <p>{errors.userpic?.message}</p>
+        </div>
+
+        <label>
+          Country
+          <input
+            {...register('country')}
+            list="country-data"
+            id="country"
+            name="country"
+            autoComplete="off"
+          />
+          <datalist id="country-data">
+            {countries.map((s) => (
+              <option key={s}>{s}</option>
+            ))}
+          </datalist>
+        </label>
+        <div className="error-message">
+          <p>{errors.country?.message}</p>
         </div>
 
         <button type="submit" disabled={!isValid}>

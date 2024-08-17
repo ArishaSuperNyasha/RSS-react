@@ -1,4 +1,5 @@
 import * as yup from 'yup';
+import { countryList } from '../global-state/country/counries-list';
 
 const MAX_FILE_SIZE = 3145728;
 interface ImageFile {
@@ -59,6 +60,15 @@ export const formSchema = yup.object().shape({
         if (!file) return false;
         const isValid = file.size < MAX_FILE_SIZE;
         return isValid;
+      },
+    }),
+  country: yup
+    .string()
+    .required()
+    .test({
+      message: 'Please, choose value from autocomplete',
+      test: (value) => {
+        return countryList.includes(value);
       },
     }),
 });
