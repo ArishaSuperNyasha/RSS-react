@@ -82,6 +82,14 @@ export function ReactHookForm() {
           </label>
         </fieldset>
 
+        <label>
+          Add userpic
+          <input type="file" {...register('userpic')} accept=".png,.jpeg" />
+        </label>
+        <div className="error-message">
+          <p>{errors.userpic?.message}</p>
+        </div>
+
         <button type="submit" disabled={!isValid}>
           Submit
         </button>
