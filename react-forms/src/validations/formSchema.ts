@@ -71,4 +71,13 @@ export const formSchema = yup.object().shape({
         return countryList.includes(value);
       },
     }),
+  termsConditionsAgreement: yup
+    .boolean()
+    .required()
+    .test({
+      message: 'You must accept the terms of the agreement',
+      test: (value) => {
+        return value;
+      },
+    }),
 });

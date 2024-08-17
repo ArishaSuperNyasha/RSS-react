@@ -113,6 +113,14 @@ export function ReactHookForm() {
           <p>{errors.country?.message}</p>
         </div>
 
+        <label>
+          <input {...register('termsConditionsAgreement')} type="checkbox" />I
+          accept the terms of the personal data processing agreement
+        </label>
+        <div className="error-message">
+          <p>{errors.termsConditionsAgreement?.message}</p>
+        </div>
+
         <button type="submit" disabled={!isValid}>
           Submit
         </button>
