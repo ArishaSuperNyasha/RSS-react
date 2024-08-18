@@ -1,0 +1,14 @@
+:is(.react-hook-form, .uncontrolled-form)
+  form
+  label:not(:has([name='gender'])) {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+:is(.react-hook-form, .uncontrolled-form) .error-message p {
+  height: 30px;
+  margin: 5px 0;
+  text-align: end;
+  color: red;
+}

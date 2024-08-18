@@ -1,0 +1,5 @@
+#!/bin/sh
+. "$(dirname -- "$0")/husky.sh"
+
+cd react-forms
+npx lint-staged
