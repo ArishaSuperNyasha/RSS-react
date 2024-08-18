@@ -7,7 +7,7 @@ type formInputsNames =
   | 'gender'
   | 'country';
 
-type FormData = Record<formInputsNames, string> & {
+export type FormData = Record<formInputsNames, string> & {
   termsConditionsAgreement: boolean;
   userpic: FileList | null;
 };

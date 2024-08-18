@@ -1,24 +1,38 @@
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { formSchema } from '../validations';
-import { RootState } from '../global-state';
-import { removeNameFromErrorMess, sendFormData } from '../utils';
+import { RootState, addForm } from '../global-state';
+import { addCodedUserpic, removeNameFromErrorMess } from '../utils';
+import { FormData } from './uncontrolled-form/utils';
+import { useNavigate } from 'react-router-dom';
 
 export function ReactHookForm() {
+  const navigate = useNavigate();
   const {
     register,
     formState: { errors, isValid, touchedFields },
     handleSubmit,
+    reset,
   } = useForm({ mode: 'all', resolver: yupResolver(formSchema) });
-
+  const dispatch = useDispatch();
   const countries = useSelector((state: RootState) => state.country.value);
+
+  function onSubmit(formData: unknown) {
+    addCodedUserpic(formData as Partial<FormData>).then((reduxData) => {
+      if (reduxData) {
+        dispatch(addForm(reduxData));
+      }
+      reset();
+      navigate('/main');
+    });
+  }
 
   return (
     <div className="react-hook-form">
       <h1>React Hook Form</h1>
 
-      <form onSubmit={handleSubmit(sendFormData)}>
+      <form onSubmit={handleSubmit(onSubmit)}>
         <label>
           Name
           <input type="text" {...register('name')} />

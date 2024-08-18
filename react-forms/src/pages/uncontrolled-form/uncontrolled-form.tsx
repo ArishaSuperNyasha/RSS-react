@@ -1,14 +1,18 @@
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../global-state';
 import { formSchema } from '../../validations';
 import { ValidationError } from 'yup';
 import { useRef } from 'react';
-import { sendFormData } from '../../utils';
+import { addCodedUserpic } from '../../utils';
 import { DELETE_ERROR_PHRAZE } from '../../global-state';
 import { filterErrors, collectFormData } from './utils';
+import { addForm } from '../../global-state';
+import { useNavigate } from 'react-router-dom';
 
 export function UncontrolledForm() {
+  const navigate = useNavigate();
   const countries = useSelector((state: RootState) => state.country.value);
+  const dispatch = useDispatch();
 
   const errorRefsObject = {
     name: useRef<HTMLParagraphElement>(null),
@@ -50,7 +54,12 @@ export function UncontrolledForm() {
     try {
       await formSchema.validate(formData, { abortEarly: false });
 
-      sendFormData(formData);
+      addCodedUserpic(formData).then((reduxData) => {
+        if (reduxData) {
+          dispatch(addForm(reduxData));
+        }
+        navigate('/main');
+      });
     } catch (error: unknown) {
       if (error instanceof ValidationError) {
         const filteredErrors = filterErrors(error.errors);
