@@ -2,7 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../global-state';
 import { formSchema } from '../../validations';
 import { ValidationError } from 'yup';
-import { useRef } from 'react';
+import { useRef, useState } from 'react';
 import { addCodedUserpic } from '../../utils';
 import { DELETE_ERROR_PHRAZE } from '../../global-state';
 import { filterErrors, collectFormData } from './utils';
@@ -13,6 +13,7 @@ export function UncontrolledForm() {
   const navigate = useNavigate();
   const countries = useSelector((state: RootState) => state.country.value);
   const dispatch = useDispatch();
+  const [isInvalid, setIsInvalid] = useState(false);
 
   const errorRefsObject = {
     name: useRef<HTMLParagraphElement>(null),
@@ -23,6 +24,13 @@ export function UncontrolledForm() {
     userpic: useRef<HTMLParagraphElement>(null),
     country: useRef<HTMLParagraphElement>(null),
     termsConditionsAgreement: useRef<HTMLParagraphElement>(null),
+  };
+
+  const onChange = () => {
+    if (!isInvalid) {
+      return;
+    }
+    setIsInvalid(false);
   };
 
   const showErrorsMessages = (arr: (string | undefined)[][]) => {
@@ -64,6 +72,7 @@ export function UncontrolledForm() {
       if (error instanceof ValidationError) {
         const filteredErrors = filterErrors(error.errors);
         showErrorsMessages(filteredErrors);
+        setIsInvalid(true);
       }
     }
   };
@@ -75,7 +84,7 @@ export function UncontrolledForm() {
       <form onSubmit={onSubmit}>
         <label>
           Name
-          <input type="text" name="name" />
+          <input type="text" name="name" onChange={onChange} />
         </label>
         <div className="error-message">
           <p ref={errorRefsObject.name}></p>
@@ -83,7 +92,7 @@ export function UncontrolledForm() {
 
         <label>
           Age
-          <input type="number" name="age" />
+          <input type="number" name="age" onChange={onChange} />
         </label>
         <div className="error-message">
           <p ref={errorRefsObject.age}></p>
@@ -91,7 +100,7 @@ export function UncontrolledForm() {
 
         <label>
           Email
-          <input type="text" name="email" />
+          <input type="text" name="email" onChange={onChange} />
         </label>
         <div className="error-message">
           <p ref={errorRefsObject.email}></p>
@@ -99,7 +108,7 @@ export function UncontrolledForm() {
 
         <label>
           Password
-          <input type="password" name="password" />
+          <input type="password" name="password" onChange={onChange} />
         </label>
         <div className="error-message">
           <p ref={errorRefsObject.password}></p>
@@ -107,7 +116,7 @@ export function UncontrolledForm() {
 
         <label>
           Confirm password
-          <input type="password" name="confirmPassword" />
+          <input type="password" name="confirmPassword" onChange={onChange} />
         </label>
         <div className="error-message">
           <p ref={errorRefsObject.confirmPassword}></p>
@@ -115,18 +124,34 @@ export function UncontrolledForm() {
 
         <fieldset>
           <label>
-            <input type="radio" value="male" name="gender" defaultChecked />
+            <input
+              type="radio"
+              value="male"
+              name="gender"
+              defaultChecked
+              onChange={onChange}
+            />
             Male
           </label>
           <label>
-            <input type="radio" value="female" name="gender" />
+            <input
+              type="radio"
+              value="female"
+              name="gender"
+              onChange={onChange}
+            />
             Female
           </label>
         </fieldset>
 
         <label>
           Add userpic
-          <input type="file" name="userpic" accept=".png,.jpeg" />
+          <input
+            type="file"
+            name="userpic"
+            accept=".png,.jpeg"
+            onChange={onChange}
+          />
         </label>
         <div className="error-message">
           <p ref={errorRefsObject.userpic}></p>
@@ -139,6 +164,7 @@ export function UncontrolledForm() {
             id="country"
             name="country"
             autoComplete="off"
+            onChange={onChange}
           />
           <datalist id="country-data">
             {countries.map((s) => (
@@ -151,14 +177,20 @@ export function UncontrolledForm() {
         </div>
 
         <label>
-          <input type="checkbox" name="termsConditionsAgreement" />I accept the
-          terms of the personal data processing agreement
+          <input
+            type="checkbox"
+            name="termsConditionsAgreement"
+            onChange={onChange}
+          />
+          I accept the terms of the personal data processing agreement
         </label>
         <div className="error-message">
           <p ref={errorRefsObject.termsConditionsAgreement}></p>
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={isInvalid}>
+          Submit
+        </button>
       </form>
     </div>
   );
