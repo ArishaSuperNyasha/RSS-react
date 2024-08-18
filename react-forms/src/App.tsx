@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { UncontrolledForm, ReactHookForm, Main } from './pages';
 import './App.css';
+import './styles/form.css';
 
 function App() {
   return (

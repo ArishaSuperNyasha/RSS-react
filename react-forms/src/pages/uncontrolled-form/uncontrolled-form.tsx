@@ -78,7 +78,7 @@ export function UncontrolledForm() {
   };
 
   return (
-    <div className="react-hook-form">
+    <div className="uncontrolled-form">
       <h1>Uncontrolled form</h1>
 
       <form onSubmit={onSubmit}>

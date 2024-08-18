@@ -1,0 +1,46 @@
+.completed-forms section p {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.completed-forms section p span {
+  font-weight: bold;
+}
+
+.completed-forms .img-container img {
+  width: 300px;
+  height: 300px;
+  object-fit: cover;
+}
+
+.completed-forms section {
+  max-width: 350px;
+  padding: 15px;
+}
+
+.completed-forms {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+.completed-forms > :first-child {
+  grid-column: 1 / 3;
+}
+
+.completed-forms > :nth-child(2) {
+  animation: shining 3s 1 forwards;
+}
+
+@keyframes shining {
+  0% {
+    background-color: rgba(169, 25, 73, 1);
+  }
+  99% {
+    background-color: rgba(169, 25, 73, 0.049);
+  }
+  100% {
+    background-color: '';
+  }
+}

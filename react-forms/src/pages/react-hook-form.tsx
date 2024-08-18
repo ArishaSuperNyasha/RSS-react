@@ -28,6 +28,11 @@ export function ReactHookForm() {
     });
   }
 
+  let ageErrorMess = removeNameFromErrorMess(errors.age?.message);
+  if (ageErrorMess.startsWith('age must be a `number` type,')) {
+    ageErrorMess = 'Age must be a number type';
+  }
+
   return (
     <div className="react-hook-form">
       <h1>React Hook Form</h1>
@@ -46,7 +51,7 @@ export function ReactHookForm() {
           <input type="number" {...register('age')} />
         </label>
         <div className="error-message">
-          <p>{removeNameFromErrorMess(errors.age?.message)}</p>
+          <p>{ageErrorMess}</p>
         </div>
 
         <label>
